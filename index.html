@@ -114,11 +114,19 @@ h1{
 </head>
 <body>
 <div id="map"></div>
-<div id="sidebar"></div>
+<div id="sidebar">
+	<div id="iw-container">
+		<div class='iw-title'>1.The World's End 世界的盡頭</div>
+		<div class="iw-content"><a target=_blank href="https://goo.gl/TrmTHt"><br>點我在ＧoogleMap顯示並規劃路徑</a></br><br>這條步行路線始於聖瑪麗街 Mary's Street和杰弗里街Jeffrey Street交界處的皇家一英里，結束在里德巷Reid's close。它探索了Canongate地區，該地區在12世紀之前基本上與愛丁堡無關，直到1856年才正式成為該城市的一部分。在此之前，Canongate是一個自治的行政區，被稱為“burgh”，沿著步行道你會看到這個歷史地位的證據。</br><p>拐角處世界的盡頭酒吧如此命名，因為多年來，這正是是愛丁堡許多貧窮居民的世界盡頭，他們無力支付進出Netherbow港口的費用。結果，許多人會留在城牆的範圍內，很少有人離開愛丁堡。<p>1977年10月15日晚上，兩名叫克里斯汀·尼迪（Christine Eadie）和海倫史·考特（Helen Scott）的青少年在酒吧最後一次被看見還活著。他們開始與兩位陌生人安格斯·辛克萊（Gordon Hamilton）和辛克萊的姐夫戈登·漢密爾頓（Angus Sinclair）交談。不幸的是，他們接受了男子載他們回家，當晚又遭到強姦和謀殺。 2007年，辛克萊因犯罪受到起訴，但針對他的案件在法庭上敗訴。根據蘇格蘭的雙重危險法，他不能因同樣的罪行再次被起訴;然而，謀殺的惡名有助於導致法律本身發生變化。2014年，辛克萊終於因謀殺罪被判有罪，這是自雙重危險法改變以來，首次獲得這樣的定罪。可悲的是，漢密爾頓在幾年前因為死亡而逃脫了正義的制裁。</p></div>
+	</div>
+</div>	
 <div id="pano"></div>
 <script>
 	
 	function initMap() {
+		  //var sidebar = document.getElementById("sidebar"),
+		  //sidebar.innerHTML = infowindow.getContent();
+
 		  var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 18,
           center: new google.maps.LatLng(55.950561, -3.184244),//1
@@ -130,7 +138,6 @@ h1{
 		  streetViewControlOptions: {
 			  position: google.maps.ControlPosition.RIGHT_CENTER
     		},
-			  //disableDefaultUI: true,
 			  mapTypeControl:false,
 		  //map style
 			styles: [{"elementType":"geometry","stylers":[{"hue":"#ff4400"},{"saturation":-68},{"lightness":-4},{"gamma":0.72}]},{"featureType":"road","elementType":"labels.icon"},{"featureType":"landscape.man_made","elementType":"geometry","stylers":[{"hue":"#0077ff"},{"gamma":3.1}]},{"featureType":"water","stylers":[{"hue":"#00ccff"},{"gamma":0.44},{"saturation":-33}]},{"featureType":"poi.park","stylers":[{"hue":"#44ff00"},{"saturation":-23}]},{"featureType":"water","elementType":"labels.text.fill","stylers":[{"hue":"#007fff"},{"gamma":0.77},{"saturation":65},{"lightness":99}]},{"featureType":"water","elementType":"labels.text.stroke","stylers":[{"gamma":0.11},{"weight":5.6},{"saturation":99},{"hue":"#0091ff"},{"lightness":-86}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"lightness":-48},{"hue":"#ff5e00"},{"gamma":1.2},{"saturation":-23}]},{"featureType":"transit","elementType":"labels.text.stroke","stylers":[{"saturation":-64},{"hue":"#ff9100"},{"lightness":16},{"gamma":0.47},{"weight":2.7}]}]			
@@ -387,7 +394,7 @@ h1{
 				label:{text:'53',color:'#800000'},
 				pov:{heading:230,pitch: 10},
 				title:"National Monument 國家紀念堂",
-				content:'<div id="iw-container">'+"<div class='iw-title'>53.國家紀念堂</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/zm5dWs">'+'<br>點我在ＧoogleMap顯示並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"</br><br>國家紀念堂National Monument是為了紀念在拿破崙戰爭中陣亡的蘇格蘭士兵。國家紀念堂矗立在愛丁堡新城以東的卡爾頓山山頂。它是由查爾斯·羅伯特·科克雷爾和他的合作者威廉·亨利·普萊費爾設計，以雅典帕特農神廟為藍本。在1826年開工建設，但是僅有部分完成。</br><p>早在1817年，人們呼籲在愛丁堡興建一座紀念堂，以紀念在拿破崙戰爭中的陣亡者。1822年1月，有人提議建造一個帕特農神廟的複製品，花費4.2萬英鎊。這項提議得到沃爾特·司各特爵士等眾多著名人士的支持[1]。但是十六個月後，只得到1.6萬英鎊捐款，以及國會的1萬英鎊贈款。1826年終於開工，但是由於使用優質材料，資金所剩無幾，到1829年被迫停建[1]。當地人傳說，格拉斯哥願意支付費用，但是愛丁堡太驕傲，不願接受其他城市的好心。因此，該紀念堂的綽號是「愛丁堡的恥辱」或「愛丁堡的愚蠢」。</p><p>周杰倫《明明就》的mv其中一個鏡頭就是以國家紀念堂為背景的"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+				content:'<div id="iw-container">'+"<div class='iw-title'>53.國家紀念堂</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/zm5dWs">'+'<br>點我在ＧoogleMap顯示並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"國家紀念堂National Monument是為了紀念在拿破崙戰爭中陣亡的蘇格蘭士兵。國家紀念堂矗立在愛丁堡新城以東的卡爾頓山山頂。它是由查爾斯·羅伯特·科克雷爾和他的合作者威廉·亨利·普萊費爾設計，以雅典帕特農神廟為藍本。在1826年開工建設，但是僅有部分完成。</br><p>早在1817年，人們呼籲在愛丁堡興建一座紀念堂，以紀念在拿破崙戰爭中的陣亡者。1822年1月，有人提議建造一個帕特農神廟的複製品，花費4.2萬英鎊。這項提議得到沃爾特·司各特爵士等眾多著名人士的支持。但是十六個月後，只得到1.6萬英鎊捐款，以及國會的1萬英鎊贈款。1826年終於開工，但是由於使用優質材料，資金所剩無幾，到1829年被迫停建。當地人傳說，格拉斯哥願意支付費用，但是愛丁堡太驕傲，不願接受其他城市的好心。因此，該紀念堂的綽號是「愛丁堡的恥辱」或「愛丁堡的愚蠢」。</p><p>周杰倫《明明就》的mv其中一個鏡頭就是以國家紀念堂為背景的"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
 			},{
 				position: new google.maps.LatLng(55.955841, -3.186511),//Car Boots Sale 車庫拍賣
 				label:{text:'54',color:'#800000'},
@@ -739,6 +746,97 @@ h1{
 				pov:{heading:10,pitch: 10},
 				icon:"https://images2.imgbox.com/8c/75/VUOSb1A2_o.png",
 				content:'<div class="iw-subTitle">麥當勞消費後可問廁所密碼，密碼不定期更換</div>'+'<a target=_blank href="https://goo.gl/GAJjTv">'+'<br>點我在ＧoogleMap顯示並規劃路徑</a>'
+//food
+			},{
+				position: new google.maps.LatLng(55.9442675,-3.2181724),//香巴辣火鍋
+				pov:{heading:110,pitch: 10},
+				title:"香巴辣火鍋",
+				icon:"https://images2.imgbox.com/a4/8d/P3UKMtOl_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>香巴辣火鍋</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/uaXdU2">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"這是一家味道地道的川味兒自助火鍋店，並結合了愛丁堡當地豐富的海鮮資源，由兩者結合碰撞出獨特的味蕾火花。如果不喜愛麻辣口味的食客可以選擇其它鍋底，總共有7-8種可供選擇。這裡的海鮮很值得品嚐，尤其是蟶子和螃蟹，來這裡的人一定要試試。另外香巴辣的滷味也是一絕，有先切的醬牛肉，也有溫在鍋中可自取的醬牛排、羊排等。各種醬料也很齊全，能過滿足不同口味的客人，川香麻辣，清淡海鮮汁，京味兒麻醬料，泰式辣椒醬，台式沙茶醬，總有一款適合能對你的胃口。吃到飽餐廳，每人£18（每年價格有異動），飲料暢飲£2，單人需加價</br></p>"+'<a target=_blank href="https://www.bangli.uk/post/11403">'+'來源</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'				
+			},{
+				position: new google.maps.LatLng(55.9457275,-3.1866224),//臉譜火鍋
+				pov:{heading:143,pitch: 10},
+				title:"臉譜火鍋",
+				icon:"https://images2.imgbox.com/a4/8d/P3UKMtOl_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>臉譜火鍋</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/VNng2j">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"</br></p>"+'<a target=_blank href="https://www.dianping.com/shop/26009419/review_all">'+'點我看介紹或評論</a>'+'<a target=_blank href="https://www.zomato.com/edinburgh/lian-pu-old-town/menu#tabtop">'+'菜單</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'				
+			},{
+				position: new google.maps.LatLng(55.9514948,-3.203742),//Hakataya博多拉麵
+				pov:{heading:235,pitch: 10},
+				title:"Hakataya博多拉麵",
+				icon:"https://images2.imgbox.com/a4/8d/P3UKMtOl_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>Hakataya博多拉麵</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/CwKpgi">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"</br></p>"+'<a target=_blank href="http://www.dianping.com/shop/25750034">'+'點我看介紹或評論</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9488952,-3.1955716),//The Witchery Restaurant女巫餐廳
+				pov:{heading:158,pitch: 10},
+				title:"The Witchery Restaurant女巫餐廳",
+				icon:"https://images2.imgbox.com/a4/8d/P3UKMtOl_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>The Witchery Restaurant女巫餐廳</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/X5kndp">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"這家位於皇家英里大道(Royal Mile)上的餐廳在愛丁堡非常有名氣，走在路上向本地人一打聽便知這家餐廳無人不曉。餐廳以美味的食物和詭異的氣氛每年都能招徠不少的遊客光顧。從一樓窄門通過一段小小的走道，再轉向地下室，立即就能感受到迎面而來的神秘氣氛。昏暗的室內光線與半挑高的天井相搭配，詭異的感覺飄在每一個角落。再加上輕聲細語的顧客和專業不多話的侍者讓整個餐廳更是有一種不可思議的氛圍。<br>另外，幽靈餐廳每天晚上推出不同主題的神秘幽靈之旅，分別是Ghost & Gore Tour與Murder & Mystery Tour兩種，都是從幽靈餐廳外出發。人均消費：即可點餐，也可享用套餐。點餐人均消費£25-50，套餐兩種選擇分別是： £35全套——前菜+主菜+甜點，£18.95午餐套餐——前菜+主菜（用餐時間為12:00-18:30或10:30-11:30）需預約</br>"+'<a target=_blank href="https://www.bangli.uk/post/11403">'+'來源</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9485999,-3.1942676),//Oink呼噜噜
+				pov:{heading:320,pitch: 10},
+				title:"Oink呼噜噜",
+				icon:"https://images2.imgbox.com/a4/8d/P3UKMtOl_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>Oink呼噜噜</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/7S2Khb">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"嚴格的說這家並不是一家餐廳，呼嚕嚕只是一個路邊小店。但是資深吃貨是絕對不會再這些問題上多做計較，只要味道好，哪怕店面再小也不是問題。只要路過呼嚕嚕的人很難不被吸引，因為透過窗戶就可以看到健壯的廚師正在一頭烤全豬上扭轉著刀，把切下來熱騰騰的肉夾在麵包裡，再淋上辣醬或蘋果醬，哇，看到的人怎能拒絕?<br>人均消費：£3英鎊起（一個Hog Roast Rolls只需£3.8英鎊）</br></p>"+'<a target=_blank href="https://www.bangli.uk/post/11403">'+'來源</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9534455,-3.1915847),//Saigon Saigon 西贡西贡
+				pov:{heading:260,pitch: 10},
+				title:"Saigon Saigon 西贡西贡",
+				icon:"https://images2.imgbox.com/a4/8d/P3UKMtOl_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>Saigon Saigon 西贡西贡</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/NyXR9N">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"西貢西貢是位於王子街非常好吃的一家亞洲餐館。雖然有一個越南名字，但實際上這家餐廳總體上偏中餐一點，有東北菜、川菜、粵菜、東南亞菜及粵式早茶甜點，午餐時段還提供自助。由於這家餐廳生意很好，所以建議提前預定。持學生卡還可以打折哦。人均消費：£15-25</br>"+'<a target=_blank href="https://www.bangli.uk/post/11403">'+'來源</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.946591,-3.203604),//Kanpai Sushi 乾杯壽司
+				pov:{heading:195,pitch: 10},
+				title:"Kanpai Sushi 乾杯壽司",
+				icon:"https://images2.imgbox.com/a4/8d/P3UKMtOl_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>Kanpai Sushi 乾杯壽司</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/i1AV2K">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"總體來說日本料理在英國很受歡迎，這家壽司店也不例外。不僅食材新鮮，味道正宗而且從視覺上講也很享受，擺盤非常有新意。餐廳坐落在位於城堡山下，環境優美，特別適合情侶約會或朋友聚會。用餐之後可以順著路走走，看看紫光照亮的城堡和街道兩旁的小店，格外愜意。人均消費：£15</br>"+'<a target=_blank href="https://www.bangli.uk/post/11403">'+'來源</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9435462,-3.1849077),//Kim’s Mini Meals 金家小店
+				pov:{heading:50,pitch: 10},
+				title:"Kim’s Mini Meals 金家小店",
+				icon:"https://images2.imgbox.com/a4/8d/P3UKMtOl_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>Kim’s Mini Meals 金家小店</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/x6XRmq">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"這是一家夫妻韓國料理店，食物美味，而且服務態度非常棒，老闆十分熱情，總是笑臉迎人。石鍋拌飯、炒年糕、泡菜炒飯·······這家的韓國料理統統點贊。雖然價格比同一條街上的GS韓料稍高一些，但是物有所值。人均消費：£10</br></p>"+'<a target=_blank href="https://www.bangli.uk/post/11403">'+'來源</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9468889,-3.1913608),//Greyfriars Bobby Bar 忠狗餐廳
+				pov:{heading:239,pitch: 10},
+				title:"Greyfriars Bobby Bar 忠狗餐廳",
+				icon:"https://images2.imgbox.com/a4/8d/P3UKMtOl_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>Greyfriars Bobby Bar 忠狗餐廳</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/zfFjaH">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"這是愛丁堡非常有名的酒吧餐廳，一半是因為食物，另一半是因為忠狗bobby。在餐廳門口都有狗狗的銅像， 每天都會有很多遊客前來合影留念。如果想要品嚐最地道的蘇格蘭威士忌，啤酒和美食，來這裡準沒錯。據說摸摸餐廳外狗銅像的鼻子會帶來好運氣，所以大家來這裡都去摸摸。自然~狗鼻子那塊特別亮！人均消費：£10-30</br></p>"+'<a target=_blank href="https://www.bangli.uk/post/11403">'+'來源</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9467105,-3.2045679),//China Red 中國紅
+				pov:{heading:100,pitch: 10},
+				title:"China Red 中國紅",
+				icon:"https://images2.imgbox.com/a4/8d/P3UKMtOl_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>China Red 中國紅</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/C7mhe3">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"吃到飽餐廳，官網內有菜單及價格，午餐£9.99，晚餐£15.99</br></p>"+'<a target=_blank href="https://www.tripadvisor.com.tw/Restaurant_Review-g186525-d10200258-Reviews-China_Red-Edinburgh_Scotland.html">'+'點我看介紹或評論</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9365054,-3.1577969),//Prestonfield House 普利斯頓菲爾德之家
+				pov:{heading:80,pitch: 10},
+				title:"Prestonfield House 下午茶",
+				icon:"https://images2.imgbox.com/a4/8d/P3UKMtOl_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>Prestonfield House 普利斯頓菲爾德之家</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/sdZYcr">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"普利斯頓菲爾德酒店位於Arthur's Seat腳下的場地上，以豪華的的內部及悠久的歷史著稱，接待過邱吉爾及柴契爾夫人...等名人，還擁有一個大型圓屋，以前用於飼養馬匹。馬厩改變了用途，現在用於舉辦各種活動，包括蘇格蘭美食節。在這個豪華美麗的建築中還可以看到高地牛及孔雀。經典下午茶 Afternoon Tea £30;香檳下午茶 Champagne Afternoon Tea(Billecart-Salmon Champagne) £40，需預約</br></p>"+'<a target=_blank href="http://lindawu37.blogspot.com/2015/05/prestonfield.html">'+'點我看介紹或評論</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9524645,-3.1989245),//Mussel Inn Seafood 海鮮餐廳
+				pov:{heading:314,pitch: 10},
+				title:"",
+				icon:"https://images2.imgbox.com/a4/8d/P3UKMtOl_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'></div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/iFVSdS">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"這裡的淡菜很受歡迎，半鍋7磅就可以吃得挺飽的，還附上奶油及麵包。</br></p>"+'<a target=_blank href="https://www.tripadvisor.com.tw/Restaurant_Review-g186525-d720094-Reviews-Mussel_Inn-Edinburgh_Scotland.html">'+'點我看介紹或評論</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(),//
+				pov:{heading:180,pitch: 10},
+				title:"",
+				icon:"https://images2.imgbox.com/a4/8d/P3UKMtOl_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'></div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"</br></p>"+'<a target=_blank href="">'+'點我看介紹或評論</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(),//
+				pov:{heading:180,pitch: 10},
+				title:"",
+				icon:"https://images2.imgbox.com/a4/8d/P3UKMtOl_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'></div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"</br></p>"+'<a target=_blank href="">'+'點我看介紹或評論</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(),//
+				pov:{heading:180,pitch: 10},
+				title:"",
+				icon:"https://images2.imgbox.com/a4/8d/P3UKMtOl_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'></div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"</br></p>"+'<a target=_blank href="">'+'點我看介紹或評論</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
 			}
 		];
 			var fenway = {lat: 55.950561, lng: -3.184250};//lat: 55.950s561, lng: -3.184250
