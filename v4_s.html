@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html><head>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+<style>
+html,body{  
+	margin:0px;  
+	height:100%;  
+} 
+#pano {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+    height:100%;
+    width: 70%;
+	border: thin solid #E0DFDE;
+}
+#map {
+	width:29.8%;
+	height:30%;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	z-index: 2;
+	border: thin solid #E0DFDE;
+	border-left: none;
+}
+#sidebar {
+	height:70%;
+	width: 29.8%;
+	position: absolute;
+	left: 0px;
+	bottom: 0px;
+	background-color:#F2F4F7;
+	border: thin solid #E0DFDE;
+	margin:0px auto;
+	font-family:sans-serif;
+	text-align: justify;
+	text-justify:inter-ideograph;
+	font-size:16px;
+	color:#666;
+}
+#sidebar img{
+	max-width:370px; 
+	myimg:expression(onload=function(){ 
+	this.style.width=(this.offsetWidth > 370)?"370px":"auto"});
+	margin:auto;
+	text-align: center:
+}
+#link{
+	text-align: left;
+}
+a{
+	color: #84A3F1;
+	font-size: 14px;
+}
+h1{
+	text-align: left;
+}
+.gm-style-iw {
+	width:400px !important;
+	top: 15px !important;
+	left: 0px !important;
+	background-color: #fff;
+	box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6);
+	border: 1px solid rgba(72, 181, 233, 0.6);
+	border-radius: 2px 2px 10px 10px;
+}
+#iw-container {
+	margin-bottom: 10px;
+}
+#iw-container .iw-title {
+	font-family: 'Open Sans Condensed', sans-serif;
+	font-size: 22px;
+	font-weight: 400;
+	padding: 10px;
+	background-color: #cccccc;
+	color: white;
+	margin: 0;
+	border-radius: 2px 2px 0 0;
+}
+#iw-container .iw-content {
+	font-size: 13px;
+	line-height: 18px;
+	font-weight: 400;
+	margin-right: 1px;
+	padding: 15px 5px 20px 15px;
+	max-height: 455px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+.iw-content img {
+	margin: 10 5px 5px 10px;	
+	text-align: center;
+	width: 80%;
+}
+.iw-subTitle {
+	font-size: 16px;
+	font-weight: 700;
+	padding: 5px 0;
+}
+.iw-bottom-gradient {
+	position: absolute;
+	width: 100%;
+	height: 25px;
+	bottom: 20px;
+	right: 18px;
+	background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+	background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+	background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+	background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+}
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div id="sidebar">
+	<div id="iw-container">
+		<div class='iw-title'>1.The World's End 世界的尽头</div>
+		<div class="iw-content"><a target=_blank href="https://goo.gl/TrmTHt"><br>点我在ＧoogleMap显示并规划路径</a></br><br>这条步行路线始于圣玛丽街 Mary's Street和杰弗里街Jeffrey Street交界处的皇家一英里，结束在里德巷Reid's close。它探索了Canongate地区，该地区在12世纪之前基本上与爱丁堡无关，直到1856年才正式成为该城市的一部分。在此之前，Canongate是一个自治的行政区，被称为“burgh”，沿着步行道你会看到这个历史地位的证据。</br><p>拐角处世界的尽头酒吧如此命名，因为多年来，这正是是爱丁堡许多贫穷居民的世界尽头，他们无力支付进出Netherbow港口的费用。结果，许多人会留在城墙的范围内，很少有人离开爱丁堡。<p>1977年10月15日晚上，两名叫克里斯汀•尼迪（Christine Eadie）和海伦史•考特（Helen Scott）的青少年在酒吧最后一次被看见还活着。他们开始与两位陌生人安格斯•辛克莱（Gordon Hamilton）和辛克莱的姐夫戈登•汉米尔顿（Angus Sinclair）交谈。不幸的是，他们接受了男子载他们回家，当晚又遭到强奸和谋杀。 2007年，辛克莱因犯罪受到起诉，但针对他的案件在法庭上败诉。根据苏格兰的双重危险法，他不能因同样的罪行再次被起诉;然而，谋杀的恶名有助于导致法律本身发生变化。2014年，辛克莱终于因谋杀罪被判有罪，这是自双重危险法改变以来，首次获得这样的定罪。可悲的是，汉米尔顿在几年前因为死亡而逃脱了正义的制裁。</p></div>
+	</div>
+</div>	
+<div id="pano"></div>
+<script>
+	
+	function initMap() {
+		  //var sidebar = document.getElementById("sidebar"),
+		  //sidebar.innerHTML = infowindow.getContent();
+
+		  var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 18,
+          center: new google.maps.LatLng(55.950561, -3.184244),//1
+		  zoomControl: true,
+    	  zoomControlOptions: {
+			  position: google.maps.ControlPosition.RIGHT_CENTER
+		  },
+		  streetViewControl:true,
+		  streetViewControlOptions: {
+			  position: google.maps.ControlPosition.RIGHT_CENTER
+    		},
+			  mapTypeControl:false,
+		  //map style
+			styles: [{"elementType":"geometry","stylers":[{"hue":"#ff4400"},{"saturation":-68},{"lightness":-4},{"gamma":0.72}]},{"featureType":"road","elementType":"labels.icon"},{"featureType":"landscape.man_made","elementType":"geometry","stylers":[{"hue":"#0077ff"},{"gamma":3.1}]},{"featureType":"water","stylers":[{"hue":"#00ccff"},{"gamma":0.44},{"saturation":-33}]},{"featureType":"poi.park","stylers":[{"hue":"#44ff00"},{"saturation":-23}]},{"featureType":"water","elementType":"labels.text.fill","stylers":[{"hue":"#007fff"},{"gamma":0.77},{"saturation":65},{"lightness":99}]},{"featureType":"water","elementType":"labels.text.stroke","stylers":[{"gamma":0.11},{"weight":5.6},{"saturation":99},{"hue":"#0091ff"},{"lightness":-86}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"lightness":-48},{"hue":"#ff5e00"},{"gamma":1.2},{"saturation":-23}]},{"featureType":"transit","elementType":"labels.text.stroke","stylers":[{"saturation":-64},{"hue":"#ff9100"},{"lightness":16},{"gamma":0.47},{"weight":2.7}]}]			
+		//map style end	
+        });
+		google.maps.event.addListener(map, 'click', function() {  //关闭地图其它信息窗口
+			infowindow.close(panorama, streetMarker);
+		});
+		var map;
+		var features =[
+			{
+				position: new google.maps.LatLng(55.950561, -3.184244),//The World's End
+				label:{text:'1★',color:'#800000'},
+				pov:{heading:180,pitch: 4},
+				title:"The World's End 世界的尽头",
+				content:'<div id="iw-container">'+"<div class='iw-title'>1.The World's End 世界的尽头</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/TrmTHt">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"这条步行路线始于圣玛丽街 Mary's Street和杰弗里街Jeffrey Street交界处的皇家一英里，结束在里德巷Reid's close。它探索了Canongate地区，该地区在12世纪之前基本上与爱丁堡无关，直到1856年才正式成为该城市的一部分。在此之前，Canongate是一个自治的行政区，被称为“burgh”，沿着步行道你会看到这个历史地位的证据。</br><p>拐角处世界的尽头酒吧如此命名，因为多年来，这正是是爱丁堡许多贫穷居民的世界尽头，他们无力支付进出Netherbow港口的费用。结果，许多人会留在城墙的范围内，很少有人离开爱丁堡。<p>1977年10月15日晚上，两名叫克里斯汀•尼迪（Christine Eadie）和海伦史•考特（Helen Scott）的青少年在酒吧最后一次被看见还活着。他们开始与两位陌生人安格斯•辛克莱（Gordon Hamilton）和辛克莱的姐夫戈登•汉米尔顿（Angus Sinclair）交谈。不幸的是，他们接受了男子载他们回家，当晚又遭到强奸和谋杀。 2007年，辛克莱因犯罪受到起诉，但针对他的案件在法庭上败诉。根据苏格兰的双重危险法，他不能因同样的罪行再次被起诉;然而，谋杀的恶名有助于导致法律本身发生变化。2014年，辛克莱终于因谋杀罪被判有罪，这是自双重危险法改变以来，首次获得这样的定罪。可悲的是，汉米尔顿在几年前因为死亡而逃脱了正义的制裁。</p>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.950625,-3.184389),//>黄铜螺栓
+				label:{text:'2',color:'#800000'},
+				pov:{heading: 20,pitch: -20},
+				title:"黄铜螺栓",
+				content:'<div id="iw-container">'+'<div class="iw-title">2.黄铜螺栓</div>'+'<div class="iw-content">'+'<img src="https://images2.imgbox.com/6d/1e/RuaAw16H_o.jpg">'+'<br>Netherbow港口轮廓的黄铜螺栓 - 这是城墙中用来控制进出爱丁堡的六个强化门之一，也有助于保护城市免受攻击。几个世纪以来，Netherbow港口是爱丁堡的一个主要地标，每天都有数百人通过警卫厅。 在上面，被执行的囚犯的头被钉在钉上。这座大门于1764年被拆除，因为它会破坏交通，英军或雅各布派军队入侵的威胁已经结束。</br></div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.950544,-3.1846962),//Storytelling Centre
+				label:{text:'3',color:'#800000'},
+				pov:{heading:300,pitch: 10},
+				title:"Storytelling Centre 故事中心",
+				content:'<div id="iw-container">'+'<div class="iw-title">3.Storytelling Centre 故事中心</div>'+'<div class="iw-content">'+'<img src="https://images2.imgbox.com/95/27/LnwCwbRv_o.jpg">'+'<a target=_blank href="https://goo.gl/vb7mH1">'+'<br>点我在ＧoogleMap显示并规划路径</a></br><br>如果你走到苏格兰故事讲述中心，你可以看到从墙上放置的1606年的大门上的旧标志。该中心的摩登的附属建筑物包含了Netherbow港口的原始钟楼，可以在马路对面的墙面看到。如果您朝路口走去，您还可以在左侧看到在墙上的雕刻，显示了Netherbow 港口的样子。</br></div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.950810, -3.183429),//Mid Common Close
+				label:{text:'4',color:'#800000'},
+				pov:{heading:0,pitch: 30},
+				title:"Mid Common Close 摩尔雕像",
+				content:'<div id="iw-container">'+'<div class="iw-title">4.Mid Common Close 摩尔雕像</div>'+'<div class="iw-content">'+'<img src="https://images2.imgbox.com/59/18/JjFHbMon_o.jpg">'+'<a target=_blank href="https://goo.gl/eDdQ5n">'+'<br>点我在ＧoogleMap显示并规划路径</a></br><br>请注意Mid Common Close的标志，在其上方是一个奇怪的小雕像。 这就是所谓的摩洛哥土地和据说雕像描绘了一个"摩尔"。 据传说，这里曾经是安德鲁格雷Andrew Gray的家，他将在暴乱中被处决。 然而，他逃脱并逃往国外的摩洛哥。 1645年，爱丁堡遭遇了一场可怕的瘟疫，当时一艘摩尔式突击舰从利斯出现。 海盗们要求从这座城市获得赎金，而主教长则将他的女儿交还了，他的女儿遭受了作为人质的瘟疫的折磨。 摩尔人的领导人原来是安德鲁•格雷，在这段时间里，他为摩洛哥皇帝工作而致富起来。 他治好了教务长的女儿，最终与她结婚，在卡农盖特Canongate定居。 正如他在流亡期间发誓永远不会回到爱丁堡一样，他留在了卡农盖特，从未跨过这座城市。</br></div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.950711, -3.183321),//Gibb's Close 吉布巷
+				label:{text:'5',color:'#800000'},
+				pov:{heading:150,pitch: 10},
+				title:"Gibb's Close 吉布巷",
+				content:'<div id="iw-container">'+"<div class='iw-title'>5.Gibb's Close 吉布巷</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/raf9ka">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>在雕像对面的南边是吉布巷（Gibb's Close）。 这与威廉伯克（William Burke）和威廉哈尔（William Hare）所做的1882年臭名昭著的西港谋杀案有关。 两人从爱尔兰到爱丁堡到联合运河当劳工，他们意识到可以杀人赚更多的钱，并将尸体卖给解剖学家罗伯特诺克斯博士。 诺克斯需要不断供应尸体来教授学生解剖学课程。</br><p>在吉布巷中，伯克和哈尔谋杀了可能是妓女的玛丽•佩特森（Mary Paterson）。 她的尸体迅速在茶箱里被带到诺克斯博士那边。 伯克和哈尔据信已经造成16名遇难者死亡，但只有伯克因犯罪被定罪，他于1829年被处死。哈尔因为他的同谋作证，而能够离开爱丁堡。 </br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.950831, -3.182568),//Chessel's Court 切塞尔巷
+				label:{text:'6',color:'#800000'},
+				pov:{heading:170,pitch: 8},
+				title:"Chessel's Court 切塞尔巷",
+				content:'<div id="iw-container">'+"<div class='iw-title'>6.Chessel's Court 切塞尔巷</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/DoQWvb">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>切塞尔巷南边包含1748年的精美豪宅公寓。设计为了吸引更多富裕的居民，它们由商人和 建商的阿奇博尔德•切塞尔（Archibald Chessel）建造。 法院与爱丁堡历史上另一个臭名昭著的人物 - 迪肯•布罗迪 （Deacon Brodie，1741-88）有关。 威廉布罗迪是爱丁堡社会的一位备受尊敬的成员，担任行业协会的执事和市议会的执事。 由于他的专业，他是一位橱柜制造商，在此期间他与爱丁堡的许多知名人士混在一起，其中包括肖像画家亨利•雷伯恩爵士（Henry Raeburn）和诗人罗伯特伯恩斯（Robert Burns）。</br><p> 然而，布罗迪还过着一个秘密的生活，作为一个小偷和窃贼，在他领导对切斯尔法院消费税办公室的一次拙劣袭击后，被发现了这个秘密生活。 他的一个帮凶向当局通报布罗迪的参与，布罗迪逃到国外。 后来他被俘虏，在一场轰动的审判之后，在40000人的面前挂在皇家大道上。 作家罗伯特刘易斯史蒂文森（1850-94）写了一篇关于布罗迪的剧本，当他撰写杰基尔博士和海德先生的奇怪病例（1886年）时，几乎可以肯定地想到布罗迪奇怪的欺骗生活。 </p></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9510159,-3.1817817),//Old Playhouse Close 旧剧院巷
+				label:{text:'7',color:'#800000'},
+				pov:{heading:175,pitch: 10},
+				title:"Old Playhouse Close 旧剧院巷",
+				content:'<div id="iw-container">'+'<div class="iw-title">7.Old Playhouse Close 旧剧院巷</div>'+'<div class="iw-content">'+'<img src="https://images2.imgbox.com/4e/42/I2FZSTsH_o.jpg">'+'<a target=_blank href="https://goo.gl/GamQwN">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>继续沿着卡农盖特Canongate。右边是旧剧院巷Old Playhouse Close，以1747年由科芬•卡登（Covent Carden）的约翰•瑞安（John Ryan）在这里创建的剧院命名。这是在爱丁堡教会当局试图阻止任何戏剧制作发生的时期，因为它们被认为会破坏公共道德。 1749年，当英国军队人员要求管弦乐队演奏一首名为“卡洛登”的曲子时，这里爆发了一场战斗 - 这是一个挑衅性的要求，因为几年前英国人在库洛登击败了苏格兰军队。而管弦乐队则演奏了一首Jacobite曲调，导致英国军官与参与保护音乐家的观众成员之间发生了战斗。</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.950942, -3.181840),//Maltese Cross马耳他十字 
+				label:{text:'8',color:'#800000'},
+				pov:{heading:180,pitch: 10},
+				title:"Maltese Cross马耳他十字",
+				content:'<div id="iw-container">'+'<div class="iw-title">8.Maltese Cross马耳他十字</div>'+'<div class="iw-content">'+'<img src="https://images2.imgbox.com/68/af/8WpKdn91_o.jpg">'+'<a target=_blank href="https://goo.gl/qdRaHq">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>过旧剧场巷Old Playhouse Close一些，寻找一个马耳他十字画在街道上的标志。这纪念了曾经站在这里的圣约翰十字架，标志着爱丁堡和卡农格之间的分界线。圣约翰骑士团在十一世纪的十字军东征期间起源于耶路撒冷。像著名的圣殿骑士团一样，圣约翰骑士团是一个强大的宗教和军事组织，其最初目的是为朝圣者提供医疗护理。在他们的鼎盛时期，圣约翰骑士队控制了一些国家的大量土地，据信他们在中世纪时期拥有卡农盖特Canongate的财产。</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.950998, -3.181471),//拱门与牌匾 
+				label:{text:'9',color:'#800000'},
+				pov:{heading:180,pitch: 10},
+				title:"拱门与牌匾",
+				content:'<div id="iw-container">'+'<div class="iw-title">9.拱门与牌匾</div>'+'<div class="iw-content">'+'<img src="https://images2.imgbox.com/b7/4d/d6qcX8QD_o.jpg">'+'<a target=_blank href="https://goo.gl/qz4PSd">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>当你通过拱门下方时，回头看看上面的牌匾。 这记录了苏格兰作家和诗人托比亚斯斯莫列特（Tobias Smollett，1721-71）1766年与他的妹妹住在这里。斯莫利特Smollett以汉弗莱∙克林克尔Humphry Clinker的远征小说闻名于世，据说他的风格影响了查尔斯•迪肯斯Charles Dickens。乔治奥威尔George Orwell被描述为'苏格兰最优秀的小说家'，他是苏格兰作家的精选乐队之一，他的面容被描绘在王子街的斯科特纪念碑Scott Monument上。</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.950838, -3.181428),//Lodge Canongate Kilwinning卡农盖特•基尔温宁小屋 
+				label:{text:'11',color:'#800000'},
+				pov:{heading:300,pitch: 10},
+				title:"卡农盖特•基尔温宁小屋 ",
+				content:'<div id="iw-container">'+'<div class="iw-title">11.卡农盖特•基尔温宁小屋 </div>'+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/3zzJ2f">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>过了23号右侧拱门是一座历史悠久的马森尼克Masonic小屋，名为卡农盖特•基尔温宁小屋Lodge Canongate Kilwinning。小屋的起源可追溯至1677年，并于1730年建造了一座小教堂。小屋据信包含世界上最古老的专用共济会会议室。苏格兰伟大的诗人罗伯特•伯恩斯（Robert Burns，1759-96）从1787年起与这里的小屋有联系，并被命名为桂冠诗人。该小屋声称它有助于鼓励伯恩斯住在爱丁堡并追求他作为诗人的职业生涯。</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.950616, -3.181344),//Headquarters of St John Scotland圣约翰苏格兰的总部 
+				label:{text:'12',color:'#800000'},
+				pov:{heading:210,pitch: 5},
+				title:"Headquarters of St John Scotland圣约翰苏格兰的总部 ",
+				content:'<div id="iw-container">'+'<div class="iw-title">12.圣约翰苏格兰的总部</div>'+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/C5MDC3">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>在21号小屋旁边就是圣约翰苏格兰的总部Headquarters of St John Scotland。 这成立于1947年，是对圣约翰原始秩序的复兴。 今天是一个支持海岸警卫队和山区救援服务的慈善机构，以及耶路撒冷的圣约翰眼科医院 - 适当地考虑到圣约翰原始教会在那里成立，以帮助病人。在19世纪中叶，爱丁堡和利斯啤酒厂位于圣约翰街以西。 这只是Canongate及其周边地区十几家啤酒厂中的一家。 然而，到了20世纪后期，他们全部关闭了。 当你继续步行时，你会更多地了解卡农盖特Canongate啤酒厂。</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.951142, -3.181234),//滚动条形装饰 
+				label:{text:'13',color:'#800000'},
+				pov:{heading:320,pitch: 8},
+				title:"滚动条形装饰",
+				content:'<div id="iw-container">'+'<div class="iw-title">13.滚动条形装饰</div>'+'<div class="iw-content">'+'<img src="https://images2.imgbox.com/d2/1f/ZhCNAm2f_o.jpg">'+'<a target=_blank href="https://goo.gl/UxCxYZ">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>返回卡农盖特Canongate并继续走下走， 很快的到197号的左边，在外墙上寻找一个皇冠和刀子的滚动条形装饰。 这座18世纪初的物业被称为制鞋商之地，曾经是Cordiners（或制鞋商）公司的大厅。 该公司是一个贸易协会，标志描绘了用于切割皮革的削皮刀和圣克里斯平的冠冕 - Cordines的守护神。 Cordiners的名字来源于西班牙城市Códoba，它是当时最好的皮革的来源。</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.951088, -3.180902),//莫雷之家
+				label:{text:'14',color:'#800000'},
+				pov:{heading:160,pitch: 10},
+				title:"莫雷之家",
+				content:'<div id="iw-container">'+'<div class="iw-title">14.莫雷之家</div>'+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/upZPcG">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>接下来的右侧是莫里之家Moray House，在建筑指南中被描述为'在老城区完整度生存的最好的贵族豪宅'。它建于17世纪初，为玛丽女士的家庭伯爵夫人而命名，她的女儿玛格丽特的女儿玛格丽特是在1640年代接管这个财产的。她的后代继续拥有该财产直到7845年。1707年的联盟行为在英格兰和苏格兰之间建立了政治联盟。 他们得到了苏格兰议会成员的签名批准，其中一些签署了批准，同时躲在Moray House的避暑别墅。 他们担心爱丁堡周围的愤怒的暴民试图阻止政治家同意结束苏格兰的独立。 这座避暑别墅依然存在，但一般不向游客开放。今天，Moray House是大学的一部分，用于教师培训。 JK罗琳在1996年完成了她的教师培训课程 - 同年，她收到了她的第一本哈利波特书的出版协议。 罗伊•威廉姆森和罗尼•布朗在1955年首次在爱丁堡艺术学院见面，他也成为这里的老师，他们将继续组建苏格兰最成功的民谣乐队The Corries。 威廉姆森写了苏格兰花，在国际橄榄球比赛之前唱的全国非官方的国歌。</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.951238, -3.180787),//滚动条形装饰 
+				label:{text:'15',color:'#800000'},
+				pov:{heading:310,pitch: 11},
+				title:"滚动条形装饰",
+				content:'<div id="iw-container">'+'<div class="iw-title">15.滚动条形装饰</div>'+'<div class="iw-content">'+'<img src="https://images2.imgbox.com/57/9a/5NSkrRzq_o.png">'+'<a target=_blank href="https://goo.gl/YF8Hvh">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>几乎在莫雷之家入口对面的是位于被称为圣经地（Bibleland）的大楼门口的另一个滚动条形装饰。 这座建筑也与Cordiner有关，可追溯到1677年。这座教堂的特色是一把削皮刀，还有一本带有诗篇133节选的开放圣经。卡农盖特Canongate作为一个单独的承租人，拥有八个自己的贸易公司，其发展与爱丁堡的同行公司不同。 Hammermen（或金属工人）是1540年首先建立的，其后是1554年的Cordiners。作为Robert Hurd罗伯特赫德（1905-63）在20世纪50年代和60年代在卡农盖特Canongate开展的一个更大的再生项目的一部分，这座建筑被恢复了。</br><p>如前所述，到19世纪初，卡农盖特Canongate已经变得越来越工业化，不再流行。随着20世纪卡农盖特Canongate的工业开始衰落，许多居民成为经济衰退的受害者，并且大量的旧建筑物变得破旧不堪。在20世纪30年代，据报导，在一个房间里找到一个有六七个人的家庭是很常见的，约有25人共享一个洗手间和水龙头 - 人们住在圣约翰街的一间房子里！面对这些社会和住房问题，从20世纪中叶开始，理事会开始使用罗伯特•赫德Robert Hurd等建筑师进行再生项目。赫德在该地区进行了几次修复，特别是在20世纪50年代。他被埋葬在卡农盖特教堂。在工业时代黑暗的日子里，卡农格的气氛被法国作家儒勒凡尔纳（1828-1905）拍摄，他于1859年访问了爱丁堡。在他的“回到英国”一书中，他描述了'通向王宫的区域是这是一个绝望的苦难......在这个卑微的民众中间，在恶劣的，疾病缠身的气氛中，在泥泞的人行道上，沿着那些黑暗，潮湿的可怕巷道或关闭，导致了贫民窟的反抗，滑向无边的斜坡卡农盖特Canongate两边的沟壑，一个被古老的苏格兰可怕的诗歌所笼罩！在凡尔纳访问之后，卡诺桑特贵族拥有大房子的日子显然早已过去。 </p></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.951322, -3.180447),//Cladstone格拉德斯通法院 
+				label:{text:'16',color:'#800000'},
+				pov:{heading:310,pitch: 9},
+				title:"Cladstone 格拉德斯通法院",
+				content:'<div id="iw-container">'+'<div class="iw-title">16.Cladstone 格拉德斯通法院</div>'+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/SM9PgW">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+" </br><br>它以威廉•格莱斯顿William Gladstone议员（1809-98）的名字命名，他于19世纪担任总理，并通过他的家人与苏格兰有着广泛的联系。 这曾经是19世纪初一个慈善社会成立的莫大拉Magdalene 庇护所的所在地，目的是为了照顾'偏离道德与和平道路的年轻女孩或堕落的女性'。 当年轻女性来到庇护所时，他们的头被剃光了，他们被要求穿制服。 庇护后来搬到了达里Dalry。在19世纪后期，格莱斯顿法院以北的地区由广阔的爱丁堡天然气工厂及其巨大的330英尺高的烟囱以及卡农格特铁铸造厂控制。 这个前工业用地仍在进行重建。</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.951477, -3.179788),//Old Canongate Tolbooth 旧卡农盖特收费口 
+				label:{text:'18',color:'#800000'},
+				pov:{heading:300,pitch: 14},
+				title:"旧卡农盖特收费口",
+				content:'<div id="iw-container">'+'<div class="iw-title">18.旧卡农盖特收费口</div>'+'<div class="iw-content">'+'<img src="https://images2.imgbox.com/cc/a9/Vvl1CSNR_o.jpg">'+'<a target=_blank href="https://goo.gl/kbkg6h">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>Tolbooth的历史可追溯到1591年（时钟从1884年开始），并且是公共会费或收费的地方。它还服务于卡农盖特监狱，以及当地议会见开会的地方。作为卡农盖特的主要公民建筑，它像征着爱丁堡的封闭式独立。抬头看，你可以看到卡农特的徽章，由一只雄鹿的头和十字组成。士兵回想起荷里路修道院Holyrood Abbey基础的传说。戴维国王，当他被一只白色的雄鹿（或雄红鹿）袭击时，他正在打猎。他试图抓住鹿角，但发现自己拿着十字架，而动物跑了。在梦中，他梦见圣安德鲁指示他，在他得救的地方创立修道院。荷里路修道院是一年后在1128年由国王创立的，它在爱丁堡这个地区发挥了巨大的影响力，直到它在苏格兰宗教改革期间关闭时的1559年。</br><p>今天，这里是人民的故事的故乡 - 一个以爱丁堡及其居民的社会历史著称的人民故事博物馆The People's Story Museum。在门口上面，寻找纪念在第一次世界大战期间战斗中牺牲的卡农盖特居民的纪念碑。在20世纪初，仍然高度工业化的卡农盖特人口密度比今天高得多。</p><br>参观时间：周一～周日10:00-17:00 免费入场</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.951546, -3.179363),//Canongate Kirk 卡农盖特教堂
+				label:{text:'19',color:'#800000'},
+				pov:{heading:-30,pitch: 1},
+				title:"Canongate Kirk 卡农盖特教堂",
+				content:'<div id="iw-container">'+'<div class="iw-title">19.Canongate Kirk 卡农盖特教堂</div>'+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/RhDPTa">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>从这里前往参观隔壁的卡农盖特教堂。 卡农盖特的教区居民多年来在旧荷里路德修道院会面。 然而，这个教堂是在英格兰的詹姆斯二世 James I l决定把修道院当作大教堂给吉尔斯教堂。教堂建造开始于1680年代后期，并于1691年开始营业。詹姆斯在1688年的光荣革命期间被废，因此教堂是他三年统治时期罕见的礼拜场所。 教堂最顶部包含一个金色的鹿角头，并且再次提醒了卡农盖特的军队。</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.952198, -3.180063),//20-23 
+				label:{text:'20★',color:'#800000'},
+				pov:{heading:180,pitch: 10},
+				title:"",
+				content:'<div id="iw-container">'+'<div class="iw-title">20.启蒙时代名人墓园</div>'+'<div class="iw-content">'+'<img src="https://images2.imgbox.com/82/eb/CUPsCEGh_o.jpg">'+'<a target=_blank href="https://goo.gl/CJPrWt">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>苏格兰启蒙时代的一些杰出人物被埋葬在这里，其中包括乔治•德拉蒙德（George Drummond，1688-1766），他是六次主教长，他们的努力促成了新城的创立; 现代经济理论的哲学家和创始人亚当•斯密Adam Smith（1723-90）（图为他的墓园）; 哲学家杜加尔德斯图尔特Adam Smith （1753-1828）; 和诗人罗伯特•弗格森（Robert Fergusson，1750-74）。格森Fergusson 的雕像站在教堂的外面; 在抵达爱丁堡后，罗伯特伯恩斯Robert Burns负责墓碑（和墓志铭），以寻找他的文学英雄被埋在一个没有标记的坟墓中。 弗格森死于年仅24岁，在被关进爱丁堡恶名昭彰的疯人院庇护所后不久。 他最好的作品只写了两年，对伯恩斯的诗歌非常有影响力。</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+				
+			},{
+				position: new google.maps.LatLng(55.952028, -3.179565),//Clarinda克拉琳达
+				label:{text:'24',color:'#800000'},
+				pov:{heading:270,pitch:-1},
+				title:"Clarinda克拉琳达",
+				content:'<div id="iw-container">'+'<div class="iw-title">24.Clarinda克拉琳达</div>'+'<div class="iw-content">'+'<img src="https://images2.imgbox.com/a4/50/kwNicVA5_o.jpg">'+'<br><a target=_blank href="https://goo.gl/AmeCn4">点我在ＧoogleMap显示并规划路径</a>'+"</br><br>在墓园的东边是Agnes Maclehose的墓地 - 或者是'Clarinda克拉琳达' - 一个已婚的女人，罗伯特伯恩斯Robert Burns在爱丁堡期间爱上了这个女人。 在他们的情书中，伯恩斯用了“Sylvander”和Agnes'Clarinda'这个名字。 他们的浪漫故事激发了伯恩斯著名的歌曲“爱情之吻”（1791年），这段恋情因艾格尼丝离开苏格兰前往西印度群岛试图与她的丈夫未和解失败时结束。</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.951578, -3.179318),//Robert Fergusson罗伯特•弗格森
+				label:{text:'28',color:'#800000'},
+				pov:{heading:-30,pitch: 15},
+				title:"罗伯特•弗格森雕像",
+				content:'<div id="iw-container">'+'<div class="iw-title">28.Robert Fergusson 罗伯特•弗格森雕像</div>'+'<div class="iw-content">'+'<img src="https://images2.imgbox.com/63/b7/1GupvcJM_o.jpg">'+'<a target=_blank href="https://goo.gl/KwzEo6">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>诗人罗伯特•弗格森在基尔克之外的雕像于2004年亮相。它由戴维•安南雕刻，他的作品由三位可能的雕像中的爱丁堡人选出。</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.951626, -3.179076),//Canongate's Mercat Cross卡农盖特的梅尔卡特 
+				label:{text:'29',color:'#800000'},
+				pov:{heading:-20,pitch: 10},
+				title:"卡农盖特的梅尔卡特",
+				content:'<div id="iw-container">'+"<div class='iw-title'>29.卡农盖特的梅尔卡特</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/XLAZ6D">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>就在东边的栏杆内，你可以看到卡农盖特的梅尔卡特anongate's Mercat Cross。 从12世纪起，这个站在卡农盖特的中心。 它在那里公开宣布，并代表了卡农盖特拥有自己的市场的权利。 1953年，十字架从其历史悠久的位置移开并抵达这个地方。</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.951648, -3.178796),//Dunbar's Close邓巴巷 
+				label:{text:'33',color:'#800000'},
+				pov:{heading:300,pitch: 12},
+				title:"Dunbar's Close邓巴巷",
+				content:'<div id="iw-container">'+"<div class='iw-title'>33.Dunbar's Close邓巴巷</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/u13BBG">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>继续沿着卡农盖特Canongate，几乎在Mercat Cross沿着邓巴巷Dunbar's Close走下去之后。 这包含邓巴花园Dunbarʻs Close Garden - 一种隐藏的宝石，以17世纪的风格出现。 那个时期卡农盖特的许多豪华房子都会有这样的花园。 随着该地区的工业化，这些花园逐渐在18世纪和19世纪建成。</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.951653, -3.178526),//East Tun brewery building前东顿啤酒厂大楼 
+				label:{text:'34',color:'#800000'},
+				pov:{heading:180,pitch: 10},
+				title:"前东顿啤酒厂大楼",
+				content:'<div id="iw-container">'+'<div class="iw-title">34.前东顿啤酒厂大楼</div>'+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/kzS17o">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>返回Canongate并继续向东走。 南边是Crichton's Close，这里是苏格兰诗歌图书馆的所在地 - 如果此行动激发了你的食欲，这里是寻找伯恩斯和弗格森的作品的好地方。 走过诗歌图书馆，在左边看看BBC的标志。 英国广播公司苏格兰位于前东顿啤酒厂大楼East Tun brewery building内，这是苏格兰和纽卡斯尔大楼的一部分，曾经在这个区域占据主导地位。</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.950650, -3.177551),//old brewery clock tower老酿酒钟楼 
+				label:{text:'35',color:'#800000'},
+				pov:{heading:360,pitch: 10},
+				title:"old brewery clock tower老酿酒钟楼",
+				content:'<div id="iw-container">'+'<div class="iw-title">35.老酿酒钟楼</div>'+'<div class="iw-content">'+'<img src="https://images2.imgbox.com/a8/ff/MZ0arLmR_o.png">'+'<a target=_blank href="https://goo.gl/iEa5CE">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>东敦啤酒厂大楼对面就是老酿酒钟楼old brewery clock tower，最初是啤酒厂的酵母屋，现在是比萨快车分店的所在地。 这里曾经是荷里路德啤酒厂，东边是修道院啤酒厂（目前是苏格兰议会的位置）。</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.952134, -3.178184),//Panmure House 潘缪尔之家 
+				label:{text:'36',color:'#800000'},
+				pov:{heading:300,pitch:0 },
+				title:"Panmure House 潘缪尔之家",
+				content:'<div id="iw-container">'+'<div class="iw-title">36.Panmure House 潘缪尔之家</div>'+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/1K1ZPj">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>在洛肯德巷Lochend Close的标志下走。 当你通过拱门下方时，你会直接看到潘缪尔之家Panmure House。 这可以追溯到17世纪，是经济学家亚当•斯密最后也是唯一幸存的家。 潘缪尔之家最初是潘缪尔的杰可拜特Jacobite伯爵的联排别墅。</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.951979, -3.177464),// Reid's Court里德法院
+				label:{text:'37',color:'#800000'},
+				pov:{heading:280,pitch: 0},
+				title:"Reid's Court里德法院",
+				content:'<div id="iw-container">'+"<div class='iw-title'>37.Reid's Court里德法院</div>"+'<div class="iw-content">'+'<img src="http://s0.geograph.org.uk/geophotos/02/34/08/2340868_033914b9.jpg">'+'<a target=_blank href="https://goo.gl/GArr6Y">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>里德法院，其中包含一个18世纪早期的别墅，现在作为卡农盖特牧师住宅Canongate Manse（牧师住宅是神职人员的家）。 里德大庭是17世纪期间苏格兰检察长约翰尼斯贝特John Nisbet爵士和阿伯丁Aberdeen伯爵的家。 法院以一位名叫安德鲁里德Andrew Reid的晚期居民命名，他是1770年左右在这里居住的富有的酿酒师和地方法官。</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.950823, -3.174942),//Dynamic Earth动态地球
+				label:{text:'38＄',color:'#800000'},
+				pov:{heading:140,pitch: 10},
+				title:"Dynamic Earth动态地球",
+				content:'<div id="iw-container">'+"<div class='iw-title'>38.Dynamic Earth动态地球</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/8Uxfue">'+'<br>点我在ＧoogleMap显示并规划路径，或查看官网及营业日</a>'+'<div class="iw-subTitle"></div>'+"</br><br>自从1999年开业以来，我们的动态地球已经成为爱丁堡最主要的旅游景点之一。你可以称之为科学中心，但这不是很正确：相反，它是一系列的展览和体验，让游客在旅途中从最早的时代讲述我们生活的星球的故事。</br><p>旅程在你到达主楼之前就开始了。 “苏格兰大地景观”是一系列展品，其中包括许多不同的岩石，在这些岩石上建造了苏格兰并与进场坡道并排排列，此外，在建筑物前的露天剧场中心，还有机会体验到地球中心的旅程。接待处和售票区位于我们动态地球的上部，从这里开始您的旅程的主要部分。地球的状态概述了我们今天生活的这个星球。在这里，您可以看到大西洋一天天稳步增长，或监测地球人口的增长。在这里，你也遇到了第一位带领你参加展览的人类导游，他们似乎因为友善的幽默和能力而被招募。</p><p>每隔三分钟，团队组成一个时间机器，进行下一部分的旅程，时间机器可以将时间推迟15,000万年：实际上，一个几乎感觉不到的下降的大型电梯有助于将您与日常现实脱节和你进入我们的动态地球的地方。退出时间机器将您的团队带入一个宇宙飞船的桥梁，这个宇宙飞船是如何开始的，这是宇宙大爆炸在时间和空间开始的视图，它展示了星系聚集在一起，最终形成了我们的地球本身尽管大陆远离我们今天所知的大陆。下一个部分是不安定的地球，在这个地球上，您可以观看，聆听并感受到我们的星球在早期生活中真正形成的过程。无论如何，你永远不会接近活火山！接下来是 塑造表面，在大型屏幕上显示冰川在陆地上的影响。最后，挪威冰川的高速低空飞行是这次访问的亮点之一。</p>营业时间：星期一～星期日10:00-18:00"+'<a target=_blank href="https://www.dynamicearth.co.uk/visit/buy-tickets-online"">'+'<br>购票信息</a> 学生票£12.20，在线购买打九折</br>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.952941, -3.177426),//Craigwell Brewery克雷格韦尔啤酒厂  
+				label:{text:'39',color:'#800000'},
+				pov:{heading:-35,pitch: 20},
+				title:"Craigwell Brewery克雷格韦尔啤酒厂 ",
+				content:'<div id="iw-container">'+'<div class="iw-title">39.克雷格韦尔啤酒厂</div>'+'<div class="iw-content">'+'<a target=_blank href="https://goo.gl/SnUabg">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<img src="">'+"</br><br>Craigwell Brewery克雷格韦尔啤酒厂再次改建住宅单位。这家啤酒厂建在克雷格井，荷里路德原来的供水站。如果你在19世纪90年代在坎贝尔巷Campbell's Close东边走过这条路，你也会看到巴尔莫勒尔Balmoral啤酒厂，而在西边则是一个大型的煤气表。这个工业化程度高的整个区域将与卡尔顿山Calton Hill上方可见的优雅新古典主义建筑形成鲜明对比。<p>十八世纪在卡农盖特Canongate经营的十几家啤酒厂最初被良好的供水所吸引，与爱丁堡的独立成镇相比，啤酒生产的税率较低。在19世纪80年代，爱丁堡整个啤酒厂的数量达到了40个左右。到1945年，该市仍然有啤酒厂，雇用了大约4,500人。然而，出口下降，更严格的许可规则和自动化程度越来越高，期限下降。兼并进一步减少了啤酒厂的数量，并使生产转移到其它城市变得更加容易。到20世纪90年代，卡农盖特及其周边地区的酿酒业已经停止。</br></p></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9531848,-3.1717859),//Holyrood Abbey 荷里路德修道院
+				label:{text:'40★＄',color:'#800000'},
+				pov:{heading:100,pitch: 20},
+				title:"Holyrood Abbey 荷里路德修道院",
+				content:'<div id="iw-container">'+'<div class="iw-title">40.Holyrood Abbey 荷里路德修道院</div>'+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/ifzUGC">'+'点我在ＧoogleMap显示并规划路径，或查看官网及营业日</a>'+"<br>从风格上讲，修道院的特定部分（如门口和北墙）由罗马式建筑风格的石匠制作而成，而其余的建筑物则是13世纪哥特式建筑在即将到来的拱门中的闪亮例子。 考虑到这一点，从1195年至1230年进行了大规模的翻新，增加了许多，包括一个六湾海湾合唱团，一个带有塔楼和教堂中殿的三湾横断面。</p><p>多年来，修道院举办了许多苏格兰议会会议，罗伯特布鲁斯在1326年举行议会。它也与皇室有关，许多国王经常光顾修道院宿舍。 结束第一次苏格兰独立战争的条约由罗伯特一世在国王大厅签署。 在16世纪的各种入侵期间，1560年的苏格兰宗教改革后，修道院遭到破坏，从天主教变为新教徒。 由于结构性弱点，屋顶在1768年倒塌，因此它今天不完整。</p>来源: "+'<a target=_blank href="https://theculturetrip.com/europe/united-kingdom/scotland/articles/a-brief-history-of-holyrood-abbey-in-edinburgh/">Cultural Trip</a><br>营业时间：星期日～星期四9:30-18:00 6/26-7/7闭馆<a target=_blank href="https://www.royalcollection.org.uk/whatson/event/815581/Royal-Visit,-Palace-of-Holyroodhouse">购票信息</a> 学生票£20.70（套组，包含在荷里路德宫,画廊及花园历史导览内）</br>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.952706, -3.172495),//Palace of Holyroodhouse荷里路德宫 
+				label:{text:'41★＄',color:'#800000'},
+				pov:{heading:50,pitch: 3},
+				title:"Palace of Holyroodhouse荷里路德宫 ",
+				content:'<div id="iw-container">'+'<div class="iw-title">41.荷里路德宫</div>'+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/zhMRLy">'+'点我在ＧoogleMap显示并规划路径，或查看官网及营业日</a>'+"<br>故事开始于，戴维国王在十字架节期间（在基督教日历中纪念一天的时候）在附近打猎时，他的马匹被组挡，面对着一只生气的雄鹿。 国王注意到雄鹿的鹿角上闪耀辉煌十字架，雄鹿倒退时，国王意识到这只雄鹿不会伤害它。 国王将此视为一种指引，并在该地区创建了Holyrood Abbey修道院。“Holy”是神圣的，rood是十字架，Holyrood这个名字是“圣十字”的意思。</br>荷里路德不是作为皇宫而是作为修道院，而修道院遗址是宫殿庭院的一部分。根据传统，戴维一世在1128年为奥古斯丁教团建立了一座修道院。1501年，詹姆斯四世开始在修道院旁为自己和他的新女王玛格丽特都铎建造一座新住宅。</br><p>"+'<div class="iw-subTitle">玛丽∙苏格兰女王的客房 </div>'+"苏格兰女王玛丽所使用的套房。这些房间是在维多利亚时期首先向游客开放的房间，并保持着它们在玛丽一生期间的样子，并见证了一场情杀案。玛丽被认为是当时最美丽的女人，5岁时就被许配给法国皇太子，15岁成婚，18岁守寡 返回苏格兰，在荷里路德宫加冕成为苏格兰玛丽王后，并将宫殿重新装潢。她的第二任丈夫达恩利勋爵Lord Darnley怀疑她与秘书戴维•里西奥David Rissio有染，1565年3月9日达恩利勋爵在她面前乱刀杀死了戴维•里西奥;而达恩利勋爵惨遭刺杀身亡，玛丽女王被控谋杀。不久，玛丽女王在叛变中失掉王位并逃往英格兰，被囚禁19年最后仍因图谋英格兰王位而被送上断头台。</p><br>在荷里路德宫的网站上有环景图片介绍宫殿内的房间"+'<a target=_blank href="https://www.royalcollection.org.uk/visit/palace-of-holyroodhouse/highlights-of-the-palace-of-holyroodhouse#/#stateapartments"> 请点我</a>'+"</br>营业时间：星期日～星期四9:30-18:00 6/26-7/7闭馆</br>"+'<br><a target=_blank href="https://www.royalcollection.org.uk/visit/palace-of-holyroodhouse">购票信息</a>'+" 学生票£12.70（导览费另计）</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.951940, -3.175728),//苏格兰议会大楼 
+				label:{text:'42',color:'#800000'},
+				pov:{heading:280,pitch: 20},
+				title:"苏格兰议会大楼★",
+				content:'<div id="iw-container">'+'<div class="iw-title">42.苏格兰议会大楼</div>'+'<div class="iw-content">'+'<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Scottish_Parliament_Debating_Chamber_3.jpg/1280px-Scottish_Parliament_Debating_Chamber_3.jpg">'+'<br><a target=_blank href="https://goo.gl/TD3hUi">点我在ＧoogleMap显示并规划路径</a></br>'+"<br>苏格兰议会大楼Scottish Parliament Building和伦敦的英国国会大厦一样，苏格兰的议会厅也是可以参观的，而且不需要预约，免门票。还提供免费导览，导览会解说关于议会厅的建筑、历史还有议会的日常运作模式，导览时间差不多为一个小时，分为议会总导览、建筑介绍导览、议会的艺术收藏导览、当地文学与议会导览不同主题。也提供10分钟左右的快速导览，免费导览建议先到"+'<a target=_blank href="https://www.visitparliament.scot/tours/">网页上预约</a>'+"。另一项特色是可以"+'<a target=_blank href="http://www.parliament.scot/visitandlearn/24232.aspx">预约旁听会</a>'+"，看苏格兰人如何在议会里质询跟辩论</br>议会大楼位于苏格兰和纽卡斯尔啤酒厂Newcastle Brewery的地点上，本身就是雅戈Younger's Brewery尔啤酒厂。 它于2004年由伊莉萨白二世女王开幕，由西班牙建筑师艾瑞克•米拉莱斯Enric Miralles设计。 费用超过4亿英镑，超过了十倍原本的估计。在建筑物完工之前，米拉莱斯在2000年以45的年龄死于脑瘤的。</br></br>营业时间：星期五～星期一10:00-17:00 星期日休馆 星期二～星期四09:00-18:30 免费入场</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.952538, -3.175008),//Girth Cross 格斯交叉口  
+				label:{text:'44',color:'#800000'},
+				pov:{heading:30,pitch: -5},
+				title:"Girth Cross 格斯交叉口",
+				content:'<div id="iw-container">'+'<div class="iw-title">44.Girth Cross 格斯交叉口</div>'+'<div class="iw-content">'+'<img src="https://images2.imgbox.com/b8/7e/xhoSlGUI_o.jpg">'+'<a target=_blank href="https://goo.gl/c4QH8h">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>在罗素大厦前，在环形路口前，是一个在路面上标出的圆圈。这标示了在这里Girth Cross的遗址已存在好几个世纪。十字架帮助标志着Holyrood Abbey避难所的极限。逃离公民当局的人可以要求在边界内拥有庇护权，甚至在宗教改革后，当修道院关闭时，某些庇护权仍然存在。这是对债务人逃避债务人很有利。居住在这里的最著名的债务人是路易十六和法国十八世的兄弟孔代德阿图瓦Comte d'Artois，他于1796年到1803年期间留在这里。后来他成为法国的查理十世，并在1830年七月革命期间被废后回到这里。19世纪中叶的地图仍然描绘避难所的边界线。 1880年，法律发生了变化，因此债务人不能再被监禁，因此对保护区的需求也因此而告终。公开宣布和处决也在格斯交叉口举行。 1600年，一位名叫沃里斯顿Warriston 夫人的著名美女因谋杀她欺凌的丈夫而被斩首。</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.952716, -3.175530),// Whitehorse Close白马巷 
+				label:{text:'45',color:'#800000'},
+				pov:{heading:350,pitch: 10},
+				title:"Whitehorse Close白马巷",
+				content:'<div id="iw-container">'+'<div class="iw-title">45.Whitehorse Close白马巷</div>'+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/HK9WBE">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"这是一座名为白马的重要17世纪驿站的所在地。 巷是爱丁堡和伦敦之间旅行的主要抵达和出发点。原来的旅馆大楼在19世纪和20世纪期间大量重建，巷看起来与约翰逊时代的做法差不多。 1745年，邦妮王子查理的官员留在旅馆，而王子留在荷里路德宫。 查尔斯爱德华斯图尔特是英格兰詹姆斯一世的孙子，如前所述，他于1688年被废。1823年，皇家兽医学院创始人威廉迪克（1793-1866）出生在这里。 今天，学校是爱丁堡大学的一部分。 据说巷是以苏格兰女王玛丽所拥有的一匹马命名的。</br><br>注意里面拍照，只能在巷口，不能进入拍照</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.952363, -3.176029),//Galloway's Entry加洛韦的入口 
+				label:{text:'46',color:'#800000'},
+				pov:{heading:330,pitch:-1 },
+				title:"Galloway's Entry加洛韦的入口",
+				content:'<div id="iw-container">'+"<div class='iw-title'>46.Galloway's Entry加洛韦的入口 </div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/yDaWB1">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>接下来的右边是加洛韦的入口，那里是怀特福德之家Whitefoord House所在地。 这可以追溯到1769年，由罗伯特•米尔恩Robert Mylne（1733-1811）为约翰•怀特福德John Whitefoord爵士设计。 怀特福德至今仍被记得是罗伯特•伯恩斯Robert Burns的重要赞助人。米尔恩来自著名的苏格兰建筑师家庭，他们在爱丁堡设计了许多建筑物，利斯怀特福德之家Leith Whitefoord House是米尔恩的一项小作品，他今天以他的名字而闻名伦敦黑衣修士桥的设计和英国各地的众多运河。 有一段时间，他被认为是伟大的建筑师罗伯特亚当的相当; 但是，他最终从未达到同样的承认水平。</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.952234, -3.176234),//Queensberry House昆斯伯里众议院 
+				label:{text:'47',color:'#800000'},
+				pov:{heading:150,pitch: 10},
+				title:"Queensberry House昆斯伯里众议院 ",
+				content:'<div id="iw-container">'+"<div class='iw-title'>47.昆斯伯里众议院</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/bGeqFY">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>南边是1681年建成的昆斯伯里众议院Queensberry House。现在它成为苏格兰议会大厦的一部分。 该建筑曾经是昆斯伯里第二公爵詹姆斯道格拉斯James Douglas的家（1662-1711）。 公元1706-7年，公爵在为英国政治联盟提供支持方面发挥了重要作用。 作为女王的高级专员，他还在1707年最后一次见面时正式关闭了苏格兰议会。</br><p>公爵被认为已被伦敦提供20,000英镑用于帮助购买苏格兰议会成员的投票，并为其自己的“费用”保留了约12,000英镑的这笔款项。 如前所述，爱丁堡暴民在批准与英格兰的政治联盟时，强迫苏格兰议会的议员在马里众议院庇护。 暴徒还威胁要烧毁昆斯伯里众议院并且公爵逃往伦敦，因为他的生命处于危险之中。</p><p>在该条约获得批准的当天，传说公爵的疯狂和暴力从昆斯伯里的房间中逃出，后来发现他吃了一个他在火上捕获并烘烤的仆人的肉。事件发生的壁炉以伊恩兰金的Inspector Rebus小说“Set in Darkness（2000）”为特色，据说这所房子被谋杀的仆人男孩的鬼魂所困扰。</p></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.953759, -3.183827),//St Andrew's House圣安德鲁之家
+				label:{text:'48',color:'#800000'},
+				pov:{heading:180,pitch:-6},
+				title:"",
+				content:'<div id="iw-container">'+"<div class='iw-title'>48.圣安德鲁之家</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/CkXtJw">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"圣安德鲁之家St Andrew's House，苏格兰政府总部。 它的历史可以追溯到1939年，曾经是欧洲最大的金属框架建筑。 该遗址包含十名凶手的坟墓，这些凶手在曾经站在这里的卡尔顿监狱被关押后被处决。 小说家朱尔斯•凡尔纳在1859年访问爱丁堡期间将监狱描述为一座中世纪的小城镇，科克本勋爵认为这是一个奇怪的地点，因为它的位置非常糟糕，因为它给人们带来瞭如此辉煌的耻辱感。从1817年到20世纪20年代，这座监狱在被拆除之前运作。 内部存在一些旧牢房，今天在Grassmarket的Beehive Inn酒店可以看到“死亡牢狱”的大门 - 囚犯在执行之前被关押的地方。</br></p>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.954541, -3.182600),//Nelson Monument尼尔森纪念塔55.954446, -3.182431
+				label:{text:'49',color:'#800000'},
+				pov:{heading:180,pitch: 15},
+				title:"Nelson Monument尼尔森纪念塔",
+				content:'<div id="iw-container">'+"<div class='iw-title'>49.尼尔森纪念塔</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/sSJQEB">'+'<br>点我在ＧoogleMap显示并规划路径，或查看官网及营业日</a>'+'<div class="iw-subTitle"></div>'+"尼尔森纪念塔Nelson Monument于1815年完工，用于纪念海军上将霍雷肖纳尔逊，1805 年在特拉法加战役中击败法国和西班牙舰队，最后却不幸中弹身亡的事迹。 该塔包含一个时间球，曾用作船停在利斯（Leith）和在福斯湾（Firth of Forth）的信号―它仍然在每天下午1点掉落。</br><p>一楼的展览免费，爬到塔顶的门票是5英镑，可到至高点俯瞰整个爱丁堡城。</p>营业时间：10:00-21:00 "+'<a target=_blank href="https://goo.gl/PqXrPU">'+'至高点景色</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.954746,-3.184272),//Dugald Stewart Monument杜格尔德•斯图尔特纪念碑55.954557, -3.184355
+				label:{text:'50',color:'#800000'},
+				pov:{heading:320,pitch: 10},
+				title:"Dugald Stewart Monument杜格尔德•斯图尔特纪念碑",
+				content:'<div id="iw-container">'+"<div class='iw-title'>50.杜格尔德•斯图尔特纪念碑</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/n2C3p2">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"当你走上步道，你很快就会看到杜格尔德•斯图尔特纪念碑纪念碑Dugald Stewart Monument。 这是为了庆祝著名的道德哲学教授，你可能早些时候在Canongate Kirk看过他的坟墓。 这个结构可能看起来很熟悉 - 就像伯恩斯纪念碑一样，它的基础是雅典莱斯奎特斯（Lysicrates）的乔雷吉克纪念碑（Chysgic Monument）。 爱丁堡皇家学会 - 这个在今天仍然在这座城市茁壮成长的少数启蒙时代的机构之一 - 委托纪念碑。 它由威廉•亨利•普莱费尔（William Henry Playfair）设计，于1831年完工。</br>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.954720, -3.184049),//City Observatory城市瞭望台
+				label:{text:'51',color:'#800000'},
+				pov:{heading:320,pitch: 10},
+				title:"City Observatory城市瞭望台",
+				content:'<div id="iw-container">'+"<div class='iw-title'>51.City Observatory城市瞭望台</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/WSjcqT">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"</br><br>杜格尔德•斯图尔特纪念碑后面是城市瞭望台。最初的设计是由建筑师詹姆斯•克雷格（James Craig，1739-95）完成的 - 他的爱丁堡新城的计划于1767年由镇议会通过。这使他成为苏格兰启蒙运动中最著名的建筑师之一。原计划包括一个天文台和天文学家的房子，但只有房屋和墙壁在资金用尽之前完成。该瞭望台后来由普莱费尔（Playfair）建造，基于（松散地）在雅典的风神庙。 今天的瞭望屋是克雷格设计的遗迹。</br>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.955044, -3.183745),//Calton Hill 卡尔顿山
+				label:{text:'52★',color:'#800000'},
+				pov:{heading:200,pitch: 10},
+				title:"Calton Hill 卡尔顿山",
+				content:'<div id="iw-container">'+"<div class='iw-title'>52.Calton Hill 卡尔顿山</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/KD3BeP">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"卡尔顿这个名字的来源是盖尔语的 Choille-dun 还有 Cauldh-dun，意思分别是森林山以及黑山，不过这个丘的地质是黑色的玄武岩，所以学者们认为卡尔顿的名字比较偏向黑山的这个古名。卡尔顿山自从古代就被用作刑场。有名的术士Major Weir在这里被处决。1456年，苏格兰国王詹姆斯二世允许爱丁堡居民使用山的西北坡进行马上长矛比武。这也是个天然的圆形剧场，用作露天剧场，苏格兰人在此第一次演出The Three Estaites。</br></p>在卡尔顿山，你可以看到壮丽面对海的黄昏，在另外一侧将王子街一览无遗，也能看到高耸的司克特纪念塔。很多爱丁堡的代表图像或照片就是从杜格尔德•斯图尔特纪念碑的角度看爱丁堡的，卡尔顿山是爱丁堡代表性地点之一。这里特别适合不喜欢走太久山路的游客，从山下到山顶约十分钟，俯瞰爱丁堡的街景。夏天这里的风让你在阳光下不觉得热，冬天就需要多加点外套了。当王子街施放烟火时，这里变成观看烟火的热门景点之一，你可以看到大量的爱丁堡人聚集在这里。</p>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.954743, -3.181572),//National Monument 国家纪念堂
+				label:{text:'53',color:'#800000'},
+				pov:{heading:230,pitch: 10},
+				title:"National Monument 国家纪念堂",
+				content:'<div id="iw-container">'+"<div class='iw-title'>53.国家纪念堂</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/zm5dWs">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"国家纪念堂National Monument是为了纪念在拿破仑战争中阵亡的苏格兰士兵。国家纪念堂矗立在爱丁堡新城以东的卡尔顿山山顶。它是由查尔斯•罗伯特•科克莱尔和他的合作者威廉•亨利•普莱费尔设计，以雅典帕特农神庙为蓝本。在1826年开工建设，但是仅有部分完成。</br><p>早在1817年，人们呼吁在爱丁堡兴建一座纪念堂，以纪念在拿破仑战争中的阵亡者。1822年1月，有人提议建造一个帕特农神庙的复制品，花费4.2万英镑。这项提议得到沃尔特•司各特爵士等众多著名人士的支持。但是十六个月后，只得到1.6万英镑捐款，以及国会的1万英镑赠款。1826年终于开工，但是由于使用优质材料，资金所剩无几，到1829年被迫停建。当地人传说，格拉斯哥愿意支付费用，但是爱丁堡太骄傲，不愿接受其它城市的好心。因此，该纪念堂的绰号是「爱丁堡的耻辱」或「爱丁堡的愚蠢」。</p><p>周杰伦《明明就》的mv其中一个镜头就是以国家纪念堂为背景的"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.955841, -3.186511),//Car Boots Sale 车库拍卖
+				label:{text:'54',color:'#800000'},
+				pov:{heading:100,pitch: 10},
+				title:"Car Boots Sale 车库拍卖",
+				content:'<div id="iw-container">'+"<div class='iw-title'>54.车库拍卖</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/gMcY4K">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"如果你喜欢逛跳蚤市场、逛二手商品，在Omni Centre地下四楼停车场的车库拍卖，可以满足你的需要。每周日9:00-13:00卖家们会开车到地下停车场摆摊，许多爱丁堡人喜欢在这里挖宝。你可以看到二手书、黑胶唱片、衣物、鞋子、脚踏车、餐具，任何搬家出清品都会在这里，有时也会有卖场卖不出去的零码商品。摊位也会因为每周的卖家不同有不同的拍卖物品。这里需要花一小时的时间才可以逛完，可以说是爱丁堡最大的二手市集了！</br><p>Omni Centre对面是英国连锁型的John Lowis百货公司，喜欢购物的伙伴们，也能在这里逛各种品牌商品。</p>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.953673, -3.187245),//Regent Bridge摄政桥
+				label:{text:'55',color:'#800000'},
+				pov:{heading:0,pitch: 10},
+				title:"Regent Bridge摄政桥",
+				content:'<div id="iw-container">'+"<div class='iw-title'>55.Regent Bridge摄政桥</div>"+'<div class="iw-content">'+'<img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Regent_Bridge%2C_Waterloo_Place_-_geograph.org.uk_-_1353682.jpg">'+'<a target=_blank href="https://goo.gl/4v4mRL">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"您将很快穿过以希腊复兴风格建造的摄政桥。由Archibald Elliot（1761-1823）在著名工程师罗伯特史蒂文森（1772-1850）的指导下设计，下面的大拱门由两个开放的拱门装饰，由优雅的科林斯柱支撑。摄政大桥于1819年8月18日在萨克森科堡的利奥波德王子访问期间开放，这一事件今天以题词的形式召回。</br><p>这座桥让人想起一个可能成为我们历史书籍主要人物的人。利奥波德是一位德国王子，为俄罗斯人与拿破仑作战，后来嫁给了夏洛特公主，这是摄政王的唯一一个孩子（后来的乔治四世）。夏洛特于1817年去世，造成了很多公众的悲痛（很大程度上是因为许多人鄙视她的父亲）。如果夏洛特过世，维多利亚就不会成为女王，而利奥波德则会在英国历史上发挥重要作用。利奥波德仍然非常受公众欢迎 - 解释为什么他对爱丁堡的访问保证了桥上的铭文。他成为比利时人的第一位国王，并且在安排他的侄女维多利亚与他的侄子阿尔伯特亲王的婚姻方面发挥了重要作用。</p>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.953710, -3.186003),//Old Calton Burial Ground老卡尔顿墓地
+				label:{text:'56',color:'#800000'},
+				pov:{heading:180,pitch: 10},
+				title:"Old Calton Burial Ground老卡尔顿墓地",
+				content:'<div id="iw-container">'+"<div class='iw-title'>56.老卡尔顿墓地</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/anRN2d">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"老卡尔顿墓地Old Calton Burial Ground开放于1718年，启蒙时期的许多著名人物都埋葬在这里，最著名的是David Hume，科学家John Playfair（他帮助宣传James Hutton的作品），以及出版商William Blackwood（负责有影响力的Blackwood爱丁堡杂志）。</br>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.953481, -3.185970),//David Hume's tomb戴维休姆的坟墓
+				label:{text:'57',color:'#800000'},
+				pov:{heading:240,pitch: -10},
+				title:"David Hume's tomb戴维休姆的坟墓",
+				content:'<div id="iw-container">'+"<div class='iw-title'>57.戴维休姆的坟墓</div>"+'<div class="iw-content">'+'<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Old_Calton_David_Hume.jpg/800px-Old_Calton_David_Hume.jpg">'+'<a target=_blank href="https://goo.gl/SDu2aG">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"戴维休姆David Hume's tomb的坟墓是由罗伯特亚当设计的。休谟去世后，他的朋友们在墓地守夜八天，担心他们朋友的无神论信仰可能会导致敌对的亵渎他的坟墓。政治烈士纪念碑，一个突出的方尖碑，纪念人民之友的成员 - 一个寻求投票制度和政治改革自由化的运动。 “朋友”的一些成员在被判煽动叛乱罪后于1793年被判处驱逐出境，对这些男子的严厉对待使许多人感到震惊。在启蒙运动时期，公众的情绪逐渐转向支持政治改革，无疑有助于法国和美国革命的事件，以及诸如有影响力的人权的作者托马斯潘恩等思想家所支持的激进理论（ 1791）。1832年的“大改革法案”是英国过时的投票制度的第一次重大改革，纪念碑于1844年由英格兰和苏格兰的议会改革之友委任。这是托马斯•汉米尔顿设计的另一个建筑，他被埋葬在这个墓地里。</br>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.954436, -3.191808),//Royal Scottland Bank 皇家苏格兰银行
+				label:{text:'$',color:'#800000'},
+				pov:{heading:90,pitch: -10},
+				title:"Royal Scottland Bank 皇家苏格兰银行",
+				content:'<div id="iw-container">'+"<div class='iw-title'>90.皇家苏格兰银行</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/XCnqBh">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"美国运通的旅行支票在英国兑换，不是很便利，大多数的银行不接受换现，或是要酌收手续费。特别介绍这间在王子街的分行，是因为这里是少数可以兑换，且不收手续费的银行。要用英镑兑换欧元，这里也可以当天兑换，某些银行是需要几天工作日，才能兑现，若即将启程去欧元通用的国家，时间紧迫时，这里是不错的选择。需注意的是皇家苏格兰银行可自行发行纸钞，当拿到没有因苏格兰女王头的纸币，要离开苏格兰的时候，千万要记得把当地的货币花完，因为出了英国，国际上是不提供兑换的。</br></p>来源:"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.953530, -3.193831),//The home of the philosopher David Hume哲学家戴维休谟的家
+				label:{text:'58',color:'#800000'},
+				pov:{heading:20,pitch: 10},
+				title:"哲学家戴维休谟的家",
+				content:'<div id="iw-container">'+"<div class='iw-title'>58.哲学家戴维休谟的家</div>"+'<div class="iw-content">'+'<img src="https://upload.wikimedia.org/wikipedia/commons/e/ea/Painting_of_David_Hume.jpg">'+'<a target=_blank href="https://goo.gl/bWGrq1">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"按照地图前往原始新城东边的圣安德鲁广场（St Andrew Square），沿南侧继续前行，到达南圣戴维街（South St David Street）的交界处。</br><p>在这个角落曾经是哲学家戴维休谟的家。随着时间的推移，他与亚当•史密斯争夺苏格兰启蒙时期最伟大思想家的称号，他在爱丁堡大学开始学习时才12岁，几年之内就已经开始准备什么成为他最重要的作品 - 人性论文（当他只有26岁时完成）。在其中，休谟解决了许多复杂的问题，例如思想的起源和意义。“人性论”最初并不受欢迎，在他的一生中，休姆最出名的是历史学家，他的英国历史成为标准文本。他是一个理性主义者和经验主义者，需要相信证据来证明真理。<p></p>休谟一般被视为无神论者，这种立场使他特别不受教会当局的欢迎。他们指控他有异端，并确保他被传递到大学的学术职位。多年来，他以各种工作为生。其中包括担任贵族的导师，担任英国驻巴黎大使馆的秘书（他成为伏尔泰的朋友），并在晚年担任爱丁堡倡导者图书馆的管理员。当休谟来到这里时，新城仍然是一个巨大的建筑工地，这是最早的街道之一。休姆为他的新房子感到非常自豪，写了一封信：“我们的新城......超越了你在世界任何地方看到的任何东西”。他是一个善于交际的人，在家里举办许多晚宴，常客包括亚当史密斯，詹姆斯赫顿和历史学家威廉罗伯逊（1721-93）。可悲的是，休谟的原始房屋在20世纪50年代被拆除，尽管人们认为他曾经著名的酒窖遗骸可能仍然存在。<p></p>1771年10月，本杰明富兰克林抵达爱丁堡，与休谟待了几个星期。他后来写了一篇关于他到达这座城市最臭名昭著的无神论者的房子的说法：“Thro”风暴和洪水我周六晚上来到这里，很晚，并且在一家旅馆里凄惨地走了过来。但那位出色的基督徒戴维休谟，同意福音的戒律，已经收到了陌生人，我现在和他一起住在新城里的这所房子里。“</p>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.952422, -3.192927),//Scott Monument司各特纪念塔https://goo.gl/MevFuk塔顶风景
+				label:{text:'59★',color:'#800000'},
+				pov:{heading:200,pitch: 20},
+				title:"Scott Monument司各特纪念塔",
+				content:'<div id="iw-container">'+"<div class='iw-title'>59.司各特纪念塔</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/aUdtzP">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"沿着圣戴维街走向200英尺高的司各特纪念塔Scott Monument，该纪念碑于1844年完工。您可以沿着纪念碑内的287步走。沃尔特•斯科特爵士（1771-1832）在旧城区长大，然后像休姆一样搬到了新城。他曾在皇家高中和爱丁堡大学接受教育。十几岁时，他被Dugald Stewart等知名人士教过。他跟随父亲进入法律专业，多年来将这一点与从诗歌开始的历史性小说逐渐成为苏格兰历史小说的日益辉煌的文学生涯相结合。他被描述为这部历史小说的发明者，在他的一生中成名于欧洲和美国，并因此塑造了苏格兰在世界各地的地位。斯科特最著名的作品是韦弗利，这是詹姆斯叛乱的激动人心的故事。 Rob Roy，关于高地强盗;和中洛锡安的心脏。他还撰写了有关英国历史主题的书籍，其中最引人注目的是Ivanhoe和Quentin Durward。</br><p>斯科特生活的后半部分并不容易。在他成名的最高点，他在一家出版业和印刷企业倒闭后面临破产。他被迫在新城区（North Castle Street）出售他的房子，并开始自己努力工作。早期的坟墓是为了偿还债权人。</p><br>入内参观时间：周一～周日10:00-21:00</br>"+'<a target=_blank href="https://www.edinburghmuseums.org.uk/venue/scott-monument">'+'购票信息</a>'+'<a target=_blank href="https://goo.gl/MevFuk">'+' 塔顶风景</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.951695, -3.197073),//Floral Clock 王子街花园花钟
+				label:{text:'60',color:'#800000'},
+				pov:{heading:-30,pitch: 0},
+				title:"Floral Clock 王子街花园花钟",
+				content:'<div id="iw-container">'+"<div class='iw-title'>60.王子街花园花钟</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/kDzphy">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"苏格兰最大的花钟在花园的一块绿地上，随着成千上万的小型五彩缤纷的植物，时钟需要两个园丁五周种植，并在一个季节的剩余时间由一个园丁修剪，除草和浇水。时钟从7月到10月开花。植物每年都有所不同，但一些较常用的品种包括半边莲，除虫菊，金色苔藓和多肉植物。</br><p>在这里你可以开始漫游于王子街花园。有阳光的天气，爱丁堡人喜欢躺在绿地上晒太阳或野餐，这是他们夏日的休闲之一。每到艺术节期间，王子街花园不时会有穿苏格兰传统服饰的艺人演奏风笛，这里有时也是施放烟火的地点。圣诞节时，这里会有圣诞市集，商人在司克特纪念塔附近架起摩天轮及各种游乐设施，并贩卖食物及各种手工艺品，吸引人们目光。</p>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9513232,-3.1959536),//Scottish National Gallery 苏格兰国家画廊55.951362, -3.195895
+				label:{text:'61',color:'#800000'},
+				pov:{heading:330,pitch: 10},
+				title:"",
+				content:'<div id="iw-container">'+"<div class='iw-title'>61.苏格兰国家画廊</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/wMP8SY">'+'<br>点我在ＧoogleMap显示并规划路径，查看官网及营业日</a>'+'<div class="iw-subTitle"></div>'+"这些建筑均由William Henry Playfair设计而成，位于爱丁堡中心地区。苏格兰国家画廊Scottish National Gallery馆珍藏了多件世界上最为伟大的艺术藏品，包括包提柴里（波提切利），拉斐尔（圣拉斐尔），提申（提香），林布兰特（伦布兰特），维米尔（维米尔）， 康斯特布尔（康斯特布尔），特纳（特纳），莫奈（莫奈），梵高（梵高），高更（高更）等多位艺术家的作品。藏品也涵盖了苏格兰油画史，众多伟大艺术家 - 包括艾伦•拉姆塞（Allan Ramsay），亨利•雷朋（Henry Raeburn），戴维•威尔基（David Wilkie）和威廉•麦克塔格特（William McTaggart）的作品均数组在内。<p>参观时间：周一～周日10:00-17:00 <br>免费入场部分展览需要付费</br></p>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9508498,-3.2021224),//Wojtek the Soldier Bear Memorial 士兵熊铜像55.950778, -3.202116
+				label:{text:'62',color:'#800000'},
+				pov:{heading:210,pitch: 5},
+				title:"Wojtek the Soldier Bear Memorial 士兵熊铜像",
+				content:'<div id="iw-container">'+"<div class='iw-title'>62.士兵熊铜像</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/oSuLGg">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"在爱丁堡市中心的一座雕像纪念Wojtek the Soldier Bear Memorial 第二次世界大战期间在波兰军队服役的熊。这些士兵是波兰第二军团的成员，这是一支军事单位，由纳粹入侵苏联后斯大林从苏联古拉格释放的波兰政治犯组成。当他们离开他们的拘禁地点并向西移动加入对抗轴心的战斗时，他们收养的小熊很快就成了一种受欢迎的重要鼓舞士气。当第二军团到达埃及并准备转移到意大利战区时，成熊已经学会致敬并携带物资，享受喝啤酒，吃香烟，与士兵搏斗，以及游泳。</br><p>然而，在作战时出现了一个问题，因为士兵被禁止将宠物带入战场（此时，所有人都认为，熊已经完全深植在带大它的士兵们）。因此，这只熊被列入第二军团的第22炮兵运输公司，因此给出了一个官方号码，私人等级，以及名称Wojtek--一个波兰语的常用名称，意思是“快乐的战士”。Wojtek在战争的剩余时间里服役，最值得注意的是在Monte Cassino战役期间，他帮助移动弹药箱 - 用两只手直立，因为他认为他是人。蒙特卡西诺战役为盟军开辟了前往罗马的道路。 Wojtek在他的士兵中非常受欢迎，携带炮弹的熊的图形成为第22公司的官方标志。</p><p>战争结束后，Wojtek的公司被转移到苏格兰东南部。在第一次遭受苏联镇压后，大部分士兵在铁幕落下后拒绝返回波兰，而是选择留在苏格兰流亡。 1947年第22家公司复员后，Wojtek被转移到爱丁堡动物园。他的老波兰兄弟经常拜访他，就像他在余生中获得的那些新崇拜者一样。他于1963年去世，享年22岁。2015年11月7日，爱丁堡王子街花园的铜像不仅纪念了备受喜爱的熊，还纪念那些勇敢地分享同样令人痛苦的旅程并最终在苏格兰避难的波兰士兵。</p>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9502394,-3.203117),//Ross Fountain 罗斯喷泉
+				label:{text:'63',color:'#800000'},
+				pov:{heading:130,pitch: 15},
+				title:"Ross Fountain 罗斯喷泉",
+				content:'<div id="iw-container">'+"<div class='iw-title'>63.Ross Fountain 罗斯喷泉</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/3oAj38">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"罗斯喷泉最初是在法国的一家著名铸造厂生产的，该铸造厂由Antoine Durenne在Haute-Marne地区的Val d'Osne经营。在伦敦的一个展览会上，一位来自爱丁堡的维多利亚州枪手和慈善家丹尼尔•罗斯（Daniel Ross）将其赠送给了这座城市。在这里可以稍作停留，悠闲的散步，从山脚下看爱丁堡城堡。目前看到的（上图）是新修复的，原本的喷泉在西王子街花园保留了150多年，在2017年7月被拆除以修复泄漏造成的损坏。</br></p>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9488531,-3.1965427),//The Witches'Well 女巫墙
+				label:{text:'64',color:'#800000'},
+				pov:{heading:350,pitch: 0},
+				title:"The Witches'Well 女巫墙",
+				content:'<div id="iw-container">'+"<div class='iw-title'>64.The Witches'Well 女巫墙</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/7BFPpB">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle">铸铁喷泉标志着数百名被控女巫在桩上燃烧的地方</div>'+"</br><br>The Witches'Well，一个铸铁喷泉和牌匾，为在十五至十八世纪之间被灼伤的苏格兰女性表彰。对于只关注前方城堡的人来说，这是一个容易遗漏的地方。在16世纪期间，在这个地方遇害的女性比苏格兰其它地方多。每个受害者都被拒绝接受适当的审判。</br><p>苏格兰的詹姆斯六世国王认为，巫术是一种撒旦主义，任何拥有这些能力的人都会受到魔鬼的污染。结果，在17世纪和18世纪，超过4000名女巫（主要是女性）被处死。苏格兰是欧洲最大的巫婆迫害者。到17世纪末，女巫经常被绞死而不是被烧毁。最后一次悬挂发生在1728年。在那个时代的邪恶恐慌期间，任何人都可能被指控使用黑魔法。遇害者往往仅仅是中医师，精神病患者，或者那些处于别人病态的错误目标的人。被怀疑的妇女经常被捆绑并被扔进一个湖中以确定她们的无辜。那些淹死的人被清除了，而那些胆大妄为的人被指控为巫术并被送上了赌注。</p><p>这个小牌子的特点是饰有一个由蛇缠绕的女巫头像的铜牌，用二元论来凸显善与恶之间的平衡，并表明每一个故事都有两面。它于1894年在现在的格子呢织布厂的西墙上竖立起来。这个浮雕包含了一个Foxglove植物的图像，这个植物的中心是一条缠绕在Aesculapius，医学之神和他的女儿健康女神Hygeia头上的盘绕蛇。Asclepius的杖，蛇缠结的工作人员，今天仍然是医学的象征。Hygeia作为健康，清洁和卫生的象征代表卫生。用于药用的毛地黄植物也可以根据剂量有毒; 充满智慧的蛇形像也被认为是邪恶的。所有的象征都代表善与恶。</p>来源:"+'<a target=_blank href="https://www.atlasobscura.com/places/the-witches-well">'+'Atlas Obscura</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.948837, -3.195929),//The Scotch Whisky Experience 威士忌体验馆
+				label:{text:'65★＄',color:'#800000'},
+				pov:{heading:180,pitch: -8},
+				title:"The Scotch Whisky Experience 威士忌体验馆",
+				content:'<div id="iw-container">'+"<div class='iw-title'>65.威士忌体验馆</div>"+'<div class="iw-content">'+'<img src="https://scotchwhisky.com/images/media/8d61ebe1f38cf27c2f89e5b83dcc07db.jpg">'+'<a target=_blank href="https://goo.gl/TcsHLs">'+'<br>点我在ＧoogleMap显示并规划路径，查看官网及营业日</a>'+'<div class="iw-subTitle"></div>'+"只有在苏格兰酿造的威士忌才可以称作苏格兰威士忌，想被冠上苏格兰威士忌，条件是非常严格的。1998年的苏格兰威士忌法案(Scotch Whisky Act 1998)明确定出每一瓶苏格兰威士忌必须符合：1.必须在苏格兰地区全程磨碎、发酵、制造 2.为了保存香气及口感，蒸馏的酒精度被严格限制规定，而且禁止额外的添加物 3.每一瓶威士忌，需在大小严格规定的橡木桶内存放超过3年以上。</br><p>2008年，The Scotch Whisky Experience 威士忌体验馆成为世界上最大的苏格兰威士忌系列的所在地，共有3,384瓶。这个系列由巴西威士忌爱好者Claive Vidiz建立了超过35年。这里游客可以参加不同的套装行程，观赏威士忌的制作过程、区分威士忌的香味、参观威士忌展示间、品尝威士忌</p>参观时间：周一～周日10:00-18:00"+'<a target=_blank href="https://www.scotchwhiskyexperience.co.uk/tour-experiences">'+'查看套装行程及价格</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.948574, -3.198456),//The Gatehouse 爱丁堡城门门口
+				label:{text:'66★',color:'#800000'},
+				pov:{heading:270,pitch: 10},
+				title:"The Gatehouse 爱丁堡城门门口",
+				content:'<div id="iw-container">'+"<div class='iw-title'>66.爱丁堡城门门口</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="">'+'<br>点我在ＧoogleMap显示并规划路径，查看官网及营业日</a>'+'<div class="iw-subTitle"></div>'+"城堡入口处以拉丁文刻着「Nemo me impune lacessit」的字样，是苏格兰斯图亚特王朝(House of Stuart)的皇家格言，有「犯我者必受惩」之意，城堡正门面向东方，这也是城堡最容易进攻的一面，其它三面都是陡峭坚硬的花岗岩崖壁，只要守住城门，城堡安全几近无虞。爱丁堡城堡易守难攻的特色，使它在历史上有着独特的地位。</br><p>城门上方是中世纪时苏格兰王国（Kingdom of Scotland）的纹章，上面是一头吐着蓝色舌头、尾巴分岔、张牙舞爪的红狮子。这只狮子首次被十二世纪的苏格兰国王威廉一世（William I）采用，威廉一世野心勃勃，在位期间数次入侵英格兰，但最后以失败告终。纵使如此，历史学家因为他旗帜上的狮子，而称他为「狮子威廉（William the Lion）」。伫立在城门两侧的是1929年时新增的雕像，右边的是在第一次苏格兰独立战争（First War of Scottish Independence，1296–1328）领导反抗军的平民英雄威廉‧华勒斯（William Wallace）。他的事迹被改编成美国史诗电影《英雄本色》（Braveheart），也因此较被游客所知晓。电影「勇敢的心」指的却是另一位苏格兰民族英雄，即率领苏格兰人民在第一次独立战争中赢得最后胜利的罗伯特‧布鲁斯（Robert the Bruce）。罗伯特‧布鲁斯的雕像位在城门左侧，他于1306年加冕为苏格兰国王，然而他死后的遗愿却是希望他的心脏能由好友詹姆士‧道格拉斯（James Douglas）随着十字军来到圣地，然而天不从人愿，道格拉斯一行人在泰巴之役（Battle of Teba）中了埋伏，传说中道格拉斯在即将阵亡之际，取出银盒中的心脏扔向摩尔人，并声嘶力竭的大喊：「冲啊！勇敢的心，一如以往那样，我愿一直追随着你直到死去为止（Forward, brave heart, as ever thou were wont to do, and Douglas will follow thee or die.）」道格拉斯最后战死沙场，身葬异乡，国王的心脏则被带回苏格兰，葬在梅尔罗斯修道院（Melrose Abbey）中。进入城门后，即是售票处</p>参观时间：周一～周日09:30-18:00，最晚进入时间15:00"+'<a target=_blank href="https://www.edinburghcastle.scot/visit/tickets-prices">'+'售票信息（票价已包含导览）</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.948242, -3.199431),//The Royal Palace皇家宫殿
+				label:{text:'67★＄',color:'#800000'},
+				pov:{heading:90,pitch:20},
+				title:"The Royal Palace皇家宫殿",
+				content:'<div id="iw-container">'+"<div class='iw-title'>67.皇家宫殿</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/AsZqWs">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"皇家宫殿The Royal Palac，这个空间见证了国王与皇后生活中的重要事件和苏格兰的历史。贵族玛丽女王是法国友好联盟的最后一名捍卫者，也是反对新教改革的天主教信仰的捍卫者，于1560年在这里过世。她的女儿苏格兰的玛丽女王，也是在这里，在1566年生下了詹姆斯六世。生产时很困难，据说玛丽的一个同伴试图用魔法把生产的痛苦转移到一个仆人身上。这是一个非凡的生活的开始，因为他在1567年的第一个生日后不久成为苏格兰国王，并于1603年联合苏格兰和英格兰的国王。他在1617年为了庆祝他的50周年纪念庆祝而做出了情感上的回归 - 为这个场合重新装修了诞生室。 这间小房间是许多现代城堡游客的亮点。查理一世是留在宫殿的最后一位君主，于1633年6月19日，也就是苏格兰加冕前一天晚上在这里过夜。</br><p>在里面可以看到皇冠珠宝及命运之石。The Stone Of Destiny命运之石是苏格兰君主制的强大而古老的象征，见证了几百年来国王的加冕典礼。在传说中，当他梦见雅各布布的梯子时，它被族长雅各布布用作枕头。被视为一个神圣的物体，据信它首先被带到爱尔兰，然后是苏格兰。1296年，英格兰的爱德华一世从珀斯附近的斯康那里拿走了石头，并把它建成了自己的宝座。从那以后，它一直被用于加冕仪式，为英国的君主和英国的君主。1950年圣诞节那天，四名苏格兰学生从伦敦的威斯敏斯特教堂搬走了这块石头。三个月后，它出现在500英里外 - 在阿布罗斯修道院的前门。1996年，这块石头被送回苏格兰，现在是皇冠室，每年有成千上万的游客可以看到它。在威斯敏斯特教堂加冕时，石头只会再次离开苏格兰。</p>来源："+'<a target=_blank href="https://www.edinburghcastle.scot/discover/highlights/the-royal-palace">'+'爱丁堡城堡官方网站</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.948694, -3.199941),//St Margaret's Chapel 圣玛格丽特教堂
+				label:{text:'68＄',color:'#800000'},
+				pov:{heading:170,pitch: 20},
+				title:"St Margaret's Chapel 圣玛格丽特教堂",
+				content:'<div id="iw-container">'+"<div class='iw-title'>68.圣玛格丽特教堂</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/HJnara">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"苏格兰皇室成员曾在这个宁静的私人小教堂里跪拜。 它由戴维一世于1130年左右建造，并献给他的母亲玛格丽特女王。 圣玛格丽特是逃离诺曼入侵并与马尔科姆三世结婚的英国王室成员。据称，她在1250年被教皇英诺森四世（Canopent IV）封为圣徒慈善行为。装饰的圣坛拱是原始的，而其它功能，如彩色玻璃窗，是最新的。 在16世纪，教堂被用作火药店，后来被用于防弹跳车。它的起源被遗忘，并且仅在1845年由古董丹尼尔•威尔逊爵士重新发现。教堂里总是有鲜花。 这些由圣玛格丽特的教堂协会提供，其成员都有玛格丽特的名字，住在苏格兰。 小教堂仍然用于洗礼和婚礼。</br>来源："+'<a target=_blank href="https://www.edinburghcastle.scot/discover/highlights/st-margarets-chapel">'+'爱丁堡城堡官方网站</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.948910, -3.200154),//Mons Meg蒙斯梅格
+				label:{text:'69＄',color:'#800000'},
+				pov:{heading:180,pitch: 10},
+				title:"",
+				content:'<div id="iw-container">'+"<div class='iw-title'>69.Mons Meg蒙斯梅格</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/jYHnpY">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"蒙斯梅格是皇家军械库收藏中的中世纪大炮，但租到苏格兰历史悠久，位于苏格兰的爱丁堡城堡。它建于1449年，由勃艮第公爵菲利普先生的命令建造，并于1454年作为礼物送给了苏格兰国王詹姆斯二世。这个大炮一直被用于围攻，直到16世纪中叶，之后 只是在仪式场合使用。 在1680年的一次这样的场合，枪管破裂，使Mons Meg无法使用，却一直停留在爱丁堡城堡，直到1754年，当时它与苏格兰的其它未使用的武器一起被带到了伦敦塔。 沃尔特•斯科特爵士和其它人一起竞选返回，该活动于1829年完成。蒙斯梅格已经恢复，现在在城堡内展出。 蒙斯梅格的枪管直径为20英寸（510毫米），使其成为世界上最大的大炮之一。</br>来源："+'<a target=_blank href="https://en.wikipedia.org/wiki/Mons_Meg">'+'维基百科</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.949095, -3.200744),//One o'clock Gun一点钟报时鸣炮
+				label:{text:'70＄',color:'#800000'},
+				pov:{heading:-20,pitch: 10},
+				title:"One o'clock Gun一点钟报时鸣炮",
+				content:'<div id="iw-container">'+"<div class='iw-title'>70.一点钟报时鸣炮</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/Yqtwru">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"一点钟报时鸣炮One o'clock Gun可以追溯到1861年，当时它允许Firth of Forth的船只设置他们在世界海洋中航行所需的海上时钟。这个想法是由商人John Hewitt从巴黎带到爱丁堡的。 除星期日，圣诞节或耶稣受难日外，每天下午1点开枪，人群聚集在一起欣赏奇观。 第一支枪是64磅重的，但自2001年以来，Mills Mount Battery发射了一支105毫米的野战炮。</br>"+'<a target=_blank href="https://www.edinburghcastle.scot/discover/highlights/one-oclock-gun">'+'爱丁堡城堡官方网站</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.948489, -3.201041),//Prisons Of War 战争监狱
+				label:{text:'71＄',color:'#800000'},
+				pov:{heading:130,pitch: 10},
+				title:"Prisons Of War 战争监狱",
+				content:'<div id="iw-container">'+"<div class='iw-title'>71.Prisons Of War 战争监狱</div>"+'<div class="iw-content">'+'<img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/Edinburgh_Castle_prison_-_Stierch.jpg">'+'<a target=_blank href="https://goo.gl/GN5Z9r">'+'<br><br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"从在里顺着指标的方向，穿过铁栅栏进去战争监狱。进去后可以看到许多在这里萎靡不振的民族的囚犯，他们来自法国，美国，西班牙，荷兰，爱尔兰，意大利，丹麦和波兰，第一批是在七年战争的时候（十八世纪）被抓的法国战俘，之后也包含政治犯、在军事监狱中犯罪或逃兵的军人。犯人在监狱里还是可以有些娱乐活动，像是手工艺，因此培养了第二兴趣与才艺。</br><p>这里有名的故事是有一个试图逃狱的犯人，将自己藏在大便堆里被运到市区，就此出逃，但粪便后来被倒往城墙边，犯人也因此在粪便中身亡。传闻有人在墙边拍照时，若闻到屎臭味，便是犯人的灵魂在你附近徘徊</p>"+'<a target=_blank href="https://blog.edinburghcastle.scot/edinburgh-castle-prisons-war">'+'阅读更多</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.948277, -3.200733),//Regimental Museums 军事博物馆
+				label:{text:'72＄',color:'#800000'},
+				pov:{heading:180,pitch: 10},
+				title:"Regimental Museums 军事博物馆",
+				content:'<div id="iw-container">'+"<div class='iw-title'>72.Regimental Museums 军事博物馆</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/GN5Z9r">'+'<br>点我在ＧoogleMap显示并规划路径，查看官网及营业日</a>'+'<div class="iw-subTitle"></div>'+"皇家苏格兰龙骑兵卫队成立，以帮助查理二世国王与17世纪的宗教异议者契约会。他们的第一场战斗是在爱丁堡附近的彭特兰山的Rullion Green。新军营这个独立的军团博物馆中的骄傲是第45步法国步兵的鹰和标准，于1815年在滑铁卢战役中苏格兰灰人的史诗般的冲锋中被捕获。</br>来源:"+'<a target=_blank href="https://www.edinburghcastle.scot/discover/highlights/regimental-museums">'+'爱丁堡城堡官方网站</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.949722, -3.193671),//淑女梯巷 & 作家博物馆
+				label:{text:'73',color:'#800000'},
+				pov:{heading:270,pitch: 20},
+				title:"淑女梯巷 & 作家博物馆",
+				content:'<div id="iw-container">'+"<div class='iw-title'>73.淑女梯巷 & 作家博物馆</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/yxp6b4">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"继续寻找右边的淑女梯巷Lady Stair's Close（上面有一个标志，指的是附近的罗伯特伯恩斯住所）。如果您走在这里，您可以参观位于Lady Stair's House的作家博物馆The Writers' Museum。 其中包含有关苏格兰最伟大的文学人物的生活和工作的丰富信息，包括罗伯特伯恩斯和沃尔特斯科特爵士。</br><p>参观时间：周一～周日10:00-17:00 免费入场</p>"+'<a target=_blank href="https://www.edinburghmuseums.org.uk/venue/writers-museum">'+'作家博物馆官网</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.949585, -3.192853),//Deacon Brodie's Tavern 执事布罗迪酒馆
+				label:{text:'74',color:'#800000'},
+				pov:{heading:-90,pitch: 4},
+				title:"Deacon Brodie's Tavern 执事布罗迪酒馆",
+				content:'<div id="iw-container">'+"<div class='iw-title'>74.执事布罗迪酒馆</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/CmLp7N">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"过马路停在执事布罗迪Deacon Brodie酒馆外面。当罗伯特•伯恩斯于1786年11月28日抵达爱丁堡时，他住在巴克斯特附近，靠近酒吧所在的地方。他在妓院下面有一个小房间，他到达后做的第一件事就是在Canongate Kirk的诗人罗伯特弗格森的坟墓中表达敬意。被称为“犁人诗人”因为他早年在家庭农场工作，伯恩斯在抵达爱丁堡后成为一种文学感受。他的共济会联系以及像Dugald Stewart这样的人的赞助一路上帮助了他。烧伤的年仅37岁，他的受欢迎程度得到了大约1万人参加他的葬礼这一事实的证实。</br><p>这家酒吧以威廉•布罗迪（William Brodie，1741-88）的名字命名，威廉•布罗迪（William Brodie）是爱丁堡公司的一名受人尊敬的成员，直到发现他作为窃贼过着秘密的生活。布罗迪于1788年被定罪，并在非常接近这里的4万人面前被绞死。他的秘密生活激发了罗伯特刘易斯史蒂文森的杰奇博士和海德先生的奇怪案例。</p>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.949586, -3.191605),//中洛锡安之心 
+				label:{text:'75★',color:'#800000'},
+				pov:{heading:180,pitch: -5},
+				zoom:10,
+				title:"Heart Of Midlothian 中洛锡安之心",
+				content:'<div id="iw-container">'+"<div class='iw-title'>75.中洛锡安之心</div>"+'<div class="iw-content">'+'<img src="https://images2.imgbox.com/08/8c/sBHoOchY_o.jpg">'+'<a target=_blank href="https://goo.gl/Fb9o7J">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle">一个甜美的符号标志着曾经进行过酷刑处决的地方</div>'+"在教堂门口与雕像的中间寻找这个心型地砖-中洛锡安之心Heart Of Midlothian，<strong>往雕像前数第二跟第三个栏杆之间</strong>。这标志一去不回的 监狱的入口处。古老的Tolbooth在整个英国都被认为是一个可耻的地方。尽管它最初是作为债务人监狱开始的，但它很快就将各种盗贼和凶手以及小罪犯都囚禁起来。其中一些是妇女和小孩。Tolbooth因其折磨手段而闻名 - 拇指螺钉和弹药是常见的惩罚。执行都是公开的，在镇广场上方的平台上进行。最臭名昭著的犯罪分子会将他们的头颅刺穿高街街道的尖刺，作为对其他违法分子的警告。</br><p>它的条件十分糟糕，1561年，苏格兰女王玛丽下令拆除重建。新大楼时髦，其新功能包括，在其门口的一颗心。尽管如此，这并没有表明任何善良的做法，并且新Tolbooth的折磨和处决一直持续到1817年被拆除。监狱及其心脏通过沃尔特斯科特爵士的“中洛锡安之心”而闻名，该中心将老旧的暴动虚构化市政厅。老Tolbooth唯一留下的是中洛锡安之心。当爱丁堡人走过时，会对它吐口水，虽然没有人能明确说出原因，有人说这是一种遗留下来的做法，当时路人会在监狱里吐痰，与内心人士团结一致。 其它人则说，当他们通过监狱门被释放时，囚犯们自己也在心型上吐口水。 还有一些人说这是爱丁堡足球队“红心”的好运。现在，游客经常被告知，对中洛锡安之心吐口水是确保你有一天能再次回到爱丁堡的唯一途径。 无论哪种方式，在探索皇家大道时都要注意自己的步伐！</p>来源:"+'<a target=_blank href="https://www.atlasobscura.com/places/the-heart-of-midlothian">'+'https://www.atlasobscura.com/places/the-heart-of-midlothian</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9497223,-3.1905556),//Saint Giles' Cathedral 圣吉尔斯大教堂
+				label:{text:'76★',color:'#800000'},
+				pov:{heading:210,pitch: 10},
+				title:"Saint Giles' Cathedral 圣吉尔斯大教堂",
+				content:'<div id="iw-container">'+"<div class='iw-title'>76.圣吉尔斯大教堂</div>"+'<div class="iw-content">'+'<img src="https://img.bangli.uk/images/cms/2016/07/p112138_3.jpg">'+'<a target=_blank href="https://goo.gl/xuma94">'+'<br>点我在ＧoogleMap显示并规划路径，查看官网及营业日</a>'+'<div class="iw-subTitle"></div>'+"蓟花勋章礼拜堂（Thistle Chapel）"+'<a target=_blank href="https://goo.gl/dYZCqz">点我看教堂内部</a>'+"</br><br>是圣吉尔斯大教堂的一个比较低调的小教堂，它就是蓟花勋章骑士团的小教堂。高贵的蓟花勋是最古老象征最高贵的秩序，简称就是蓟花勋章，蓟花勋章是"+'<a target=_blank href="https://www.bangli.uk/post/121382">詹姆斯二世</a>'+"在1687年制定的，蓟花勋章的佩戴者相当少，在世的受勋者也就只有十几位，并且只有英国国王才能授予勋章勋章的重要标志就是苏格兰国花 - 蓟花勋章。勋章的格言也是比较霸气的：“犯我们必受惩。”（拉丁文：Nemo me impune lacessit。），这句话同时也是苏格兰皇家军团与苏格兰皇家骑兵卫队的格言。</br><br>圣吉尔斯大教堂建于12世纪，您所看到的大部分建筑都可以追溯到14世纪晚期。 这不是一个真正的大教堂，因为它几百年来一直没有成为主教的所在地，它的封号已经停滞不前。 </br><br>参观时间：周一～周日09:30-21:30 免费入场（拍照需到服务台捐款£2，取得一张拍照证明的贴纸）</br>"+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.949571, -3.190201),//Mercat Cross 梅卡十字座
+				label:{text:'77',color:'#800000'},
+				pov:{heading:110,pitch: 10},
+				zoom:16,
+				title:"Mercat Cross 梅卡十字座",
+				content:'<div id="iw-container">'+"<div class='iw-title'>77.Mercat Cross 梅卡十字座</div>"+'<div class="iw-content">'+'<img src="http://www.royal-mile.com/images/cross.jpg">'+'<a target=_blank href="https://goo.gl/rCxTg4">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"Mercat Cross在大教堂附近，几个世纪以来，这里一直是公开皇家宣言，地方公告和商人们开会讨论商业问题的地方。 它是旧城区的核心，在启蒙时期，一位访问爱丁堡的英国人（威廉•斯梅利）说他可以站在这里，“在几分钟内就可以随手带走50名天才”。 在启蒙运动的黄金时代，爱丁堡的人口并不比邓弗姆林今天的人口大，这一事实有助于解释为什么这个时期的所有伟大人物都相互认识。现在的梅卡十字座是搬迁过的新位置，原本的在附近不远处，如可寻找图中地砖。</br></p>来源:"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.949826, -3.190468),//Mary King’s Close 玛丽金街  
+				label:{text:'78★＄',color:'#800000'},
+				pov:{heading:20,pitch: 15},
+				title:"Mary King’s Close 玛丽金街",
+				content:'<div id="iw-container">'+"<div class='iw-title'>78.Mary King’s Close 玛丽金街 </div>"+'<div class="iw-content">'+'<img src="https://upload.wikimedia.org/wikipedia/commons/9/96/Marykingsclose006.jpg">'+'<a target=_blank href="https://goo.gl/ssrjSx">'+'<br>点我在ＧoogleMap显示并规划路径，查看官网及营业日</a>'+'<div class="iw-subTitle"></div>'+"17世纪玛丽国王在爱丁堡的关闭生活不够卫生。 居民生活在狭窄蜿蜒的街道上，挤满了高达7层的高层住宅。没有合适的下水道系统，租户就简单的将垃圾倾倒在下面的街道上。老鼠在这条巷里面乱窜，并挟带着跳蚤到处散布。当跳蚤感染了鼠疫耶尔森氏菌（更多地称为鼠疫或“黑死病”）时，它为玛丽金街的居民带来了灾难。当黑死病首次出现在不列颠群岛时，这似乎只在英国领土上出现问题。苏格兰人高兴地称它为“英国人的死罪”。然而，不久，老鼠，跳蚤和细菌已经前往苏格兰。该国四分之一的人口遭受祸害。在玛丽国王的密闭区域，这种疾病特别具有破坏性。</br><p>有一个传言是，为了隔离遇难者，爱丁堡市政府官员在1644年封锁了玛丽金的关闭，使大约600名居民在没有希望的情况下死亡。事实上，瘟疫受害者得到了很好的照顾，市议会有效率地并且富有同情地管理着疫情。足够健康的家庭被带到Burgh Muir。那些不能移动的人通过在他们的窗户上挂上白旗，让工人知道食物和煤可以送到他们的家门口。瘟疫医生George Rae随后从头到脚穿着皮革进来，还有一个怪异的鸟形面罩，以帮助保护他免受疾病侵袭。 （它起作用了;皮革使得跳蚤免于咬伤Rae，并且在爆发中幸存下来）。为了拯救瘟疫受害者，Rae将切下受害者的溃烂的表面，并将红热的扑克插入伤口以烧灼伤口。毫无疑问，这项技术确实挽救了生命。瘟疫过去后，租户继续住在玛丽金街中，直到19世纪这时它被清空并封闭。皇家交易所建立在它的顶部，封闭被遗忘。直到工人们在街上挖掘时，才意外地冲到蜿蜒的街道上，才发现它。</p><p>今天，玛丽金街是一个受欢迎的旅游景点，由历史重演者带领导游，吸引那些对其恐怖史和许多鬼故事感兴趣的人。应该居住在这里的最著名的幽灵之一是一个名叫安妮的死于瘟疫的10岁女孩。安妮的故事是来自于一位从日本来此拜访的灵媒，这位灵媒表示她在踏进这间房间时感觉到了一股忧愁的情绪，而且在她要离开时还感觉到有人拉了拉她大衣的一角。当她转过身时，她看到一位年幼的小女孩穿着睡衣在哭，小女孩表示她是被爸爸妈妈丢弃在这个巷子里的，因为她曾经接触过黑死病的病患，而且糟糕的是她的洋娃娃不见了。这位日籍的灵媒后来带了一个穿着苏格兰传统服饰的芭比娃娃回来送给这个小女孩，而这个故事传开了之后世界各地的拜访者也纷纷带着各种各样的娃娃来这里送给 Annie，这个房间现在就变成一座小小的娃娃山丘了。</p><br>参观时间：周一～周日09:30-21:30 "+'<a target=_blank href="https://www.realmarykingsclose.com/plan-your-visit/opening-times-prices/">'+'售票信息（票价已包含导览，无中文）学生票£13.50</a>'+"<br>来源:"+'<a target=_blank href="https://www.atlasobscura.com/places/mary-kings-close">'+'https://www.atlasobscura.com/places/mary-kings-close</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.950329, -3.190318),//City Chambers 市政厅
+				label:{text:'79★',color:'#800000'},
+				pov:{heading:0,pitch: 10},
+				title:"City Chambers 市政厅",
+				content:'<div id="iw-container">'+"<div class='iw-title'>79.City Chambers 市政厅</div>"+'<div class="iw-content">'+'<img src="http://4.bp.blogspot.com/_OS_1Pr-oCCo/TCAHIm-vlMI/AAAAAAAAAus/2QetK53rMsM/s1600/jk+rowling+edinburgh.JPG">'+'<a target=_blank href="https://goo.gl/pA6V4h">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"朝向大教堂的北侧是宏伟的城市商会，在1760年由普罗沃斯特乔治德拉蒙德勋爵开放时被称为皇家交易所。 该建筑由约翰和罗伯特亚当设计，旨在作为城市商人的聚会场所。中庭的雕像是名为Alexander and Bucephalus Statue，亚历山大驯服比塞弗勒斯马的雕像</br><br>在市政厅的入口处，可以看到人行道上的手印，这些人行道上有许多著名的现代苏格兰人和爱丁堡居民，包括作家JK罗琳和伊恩兰金以及运动员克里斯霍伊爵士。</br>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.949779, -3.189949),//Adam Smith Statue亚当史密斯雕像
+				label:{text:'80',color:'#800000'},
+				pov:{heading:270,pitch: 15},
+				title:"Adam Smith Statue亚当史密斯雕像",
+				content:'<div id="iw-container">'+"<div class='iw-title'>80.亚当史密斯雕像</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/3vohWH">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"史密斯Adam Smith出生于柯克卡迪，年仅14岁开始在格拉斯哥大学学习道德哲学，然后搬到牛津大学。 他发现那里的知识分子生活非常窒息，并因阅读戴维休谟的作品而受到惩罚。后来他在爱丁堡大学讲学，并成为格拉斯哥大学的教授。 史密斯以“国富论”（1776）而闻名 - 被视为现代经济理论的创始世界，至今仍具有影响力。 史密斯与居住在爱丁堡的其它重要人物如David Hume，Joseph Black和James Hutton是密友。 他还经常与本杰明富兰克林等有影响力的人士通信。 在“国富论”中，史密斯倡导一种基于个人自身利益的经济体系，这种体制将为所有人带来最大利益。 虽然他的书被视为资本主义的圣经，但史密斯对于无拘无束的自由企业并非不加批判。</br>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.950002, -3.189328),//Anchor Close 恩可巷
+				label:{text:'81',color:'#800000'},
+				pov:{heading:0,pitch: 10},
+				title:"Anchor Close 恩可巷",
+				content:'<div id="iw-container">'+"<div class='iw-title'>81.Anchor Close 恩可巷</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/93p2Hy">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"</br>你通过Anchor Close; 沿着这条狭窄的大道走到皇家大道。 在恩可巷，名为Crochallan Fencibles的独家饮酒俱乐部的成员在丹尼尔道格拉斯所拥有的酒馆中聚会。该俱乐部由William Smellie（1740-95）创立，他是大英百科全书的第一任编辑，其成员包括Adam Smith和Robert Burns。Smellie是这位诗人的亲密朋友，并将他介绍给了俱乐部。 他们俩在这里度过了许多醉酒的夜晚，在这里唱歌和读诗。 正是在酒馆里伯恩斯第一次向哈吉斯发表了他的演说。Smellie在皇家高中接受教育，成为一名主打印机。 从他近在咫尺的印刷作品中，他制作了由威廉克里奇出版的所谓爱丁堡版伯恩斯诗集。</p>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.952303, -3.188671),//North Bridge 北桥
+				label:{text:'82★',color:'#800000'},
+				pov:{heading:180,pitch: 10},
+				title:"North Bridge 北桥",
+				content:'<div id="iw-container">'+"<div class='iw-title'>82.North Bridge 北桥</div>"+'<div class="iw-content">'+'<img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Old_North_Bridge%2C_Edinburgh.jpg">'+'<a target=_blank href="https://goo.gl/VXokZV">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle">连接新城与旧城的壮观大桥</div>'+"最早的 North Bridge 建于 1763 年到 1772 年间，一直到 1896 年才被改建成新的北桥，也就是我们现在所看到的样子。旧城与新城之间的谷底，淤积着泥泞的洼地，叫Nor Loch。15世纪的时候，苏格兰国王下令将这个沼泽地挖得更深并加满水，已加强城市的防御。</br><p>不料这样的人造湖到后期，由于人口增加与城市的扩张，变成恼人的问题。当时的旧城虽然是繁华的市集与商业中心，因为人数过多，有些人便搬往新城，许多的商贩每天下坡穿过沼泽，再爬上陡峭的上坡进入市区。到了 1763 年左右，大家终于受不了这样的通勤环境，把Nor Loch谷底的水抽干，决定建一做连接新城与旧城的大桥，在 1765 年时这座大桥兴建完毕并开放通行，但不幸的是在 4 年后这座桥就崩塌了，而且还压死了五个人，人们这才意识到将一座石造大桥盖在泥泞的地基上是一件不智的事情。而因为这起不幸的崩塌事件，尽管当时的爱丁堡政府迅速地修好了桥，有许多当地民众却还是因为觉得这座桥不安全而不愿意通行，甚至还有人宣称这座桥根本就是受了诅咒。无奈之下，爱丁堡政府指好拆了原本的桥并建一座新桥，也就是我们现在所看到的桥。图为18世纪的旧北桥。</p><p>坐落在桥上的是一座战争纪念像，由雕塑家William Birnie Rhind纪念1878年至1902年期间在苏格兰边境战士中丧生的战士。</p>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.951061, -3.190897),//The Edinburgh Dungeon 爱丁堡地窖
+				label:{text:'83＄',color:'#800000'},
+				pov:{heading:350,pitch: 10},
+				title:"The Edinburgh Dungeon 爱丁堡地窖",
+				content:'<div id="iw-container">'+"<div class='iw-title'>83.爱丁堡地窖</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/PLXf5A">'+'<br>点我在ＧoogleMap显示并规划路径，查看官网及营业日</a>'+'<div class="iw-subTitle"></div>'+"爱丁堡地窖The Edinburgh Dungeon是一个讲述爱丁堡黑历史的娱乐场所，有互动性的演员表演及地下游乐设施，对于不喜欢沉闷导览的人来说，这个富戏剧性的方式更适合。这些黑历史中包含苏格兰地区食人家族 Sawney Bean，刚开始纯粹攻击落单的旅人作为食物，收刮受害者的财物，到后来更大规模的猎捕六人以上的团体旅客，因为这整食人家足加起来也有将近五十人。"+'<a target=_blank href="">'+'看更多关于Sawney Bean故事</a>'+'另一个是为赚钱，以盗墓卖尸体给医学院的的威廉•伯克William Burke及威廉•哈尔William Hare。虽然最终东窗事发，也开始有人效仿他们的犯罪行为，因此推动了政府修改法案。在 1832 年的时候，新的法案规定医生、医学院的讲者还有医学院学生可以从一些合法的管道或捐增的管道去取得大体老师来用于研究，而伯克威廉的骨架现在可以在爱丁堡大学的解剖博物馆看到。伯克与哈尔的传奇故事被翻拍成电影(如下方影片预告)及电视剧。<a target=_blank href="https://elfistraveldiary.com/2018/01/25/burke-and-hare/">'+'看更多关于伯克与哈尔故事</a>'+"</br><p>营业时间：周日～周一 10:00-17:00 "+'<a target=_blank href="https://www.thedungeons.com/edinburgh/en/tickets/">'+'售票信息</a> 网上购票比现场便宜至少£2，票价从£14.25起</p><br><iframe width="400" height="190" src="https://www.youtube.com/embed/gtSsZV8780c" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></br>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+
+			},{
+				position: new google.maps.LatLng(55.949189, -3.187540),//South Bridge Vaults 南桥地窖 
+				label:{text:'84＄',color:'#800000'},
+				pov:{heading:160,pitch: 0},
+				title:"South Bridge Vaults 南桥地窖",
+				content:'<div id="iw-container">'+"<div class='iw-title'>84.South Bridge Vaults 南桥地窖</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/gqVok8">'+'<br>点我在ＧoogleMap显示并规划路径，查看官网及营业日</a>'+'<div class="iw-subTitle"></div>'+'爱丁堡的地窖有着黑暗和令人不快的历史。当你进入地窖时，你会发现自己处于一个非常寒冷的地方，黑暗几乎是绝对的。光似乎只是在洞穴空间消散，一个隧道和角落的迷宫，有时开放到洞穴空间，其它时间通往幽闭的角落。爱丁堡的拱顶是一系列的房间，形成于苏格兰爱丁堡南桥的十九个拱门，于1788年完工。大约30年来，这些地窖被用来容纳小酒馆，修鞋匠和其它商人，并作为存储空间，用于为走私者提供存储空间，并为犯罪分子提供藏身之处。据说连串杀手Burke和Hare都使用了金库作为储藏场所，后来他们将尸体卖给了医学院。</br>由于潮湿和恶劣的空气质量导致地窖中的条件恶化，商业活动停止，最贫穷的爱丁堡市民搬进来，尽管大约在1820年左右，据信他们也离开了。然而，在此之前，有很多人已经死亡，有些人被谋杀，有些人因此而死。目前尚不清楚地窖何时被关闭，其中一些建议早在1835年，其它建议早在1875年。关于在贫民窟使用期间，地窖的记录几乎没有。众所周知的是，在某些时候，大量的碎石被倾倒在地窖中，使得贫们无法进入。在前苏格兰橄榄球国际主义者诺里•罗恩（Norrie Rowan）在20世纪80年代找到通往他们的隧道后，这地窖库被重新发现。大约十年后，Norrie Rowan和他的儿子挖掘了地窖并用手去掉了数百吨废墟。 <p>地窖大部分为私人用，需联系旅行团参观，某些酒吧，像是<a target=_blank href="https://goo.gl/W55nm2">Cabaret Voltaire</a>,<a target=_blank href="https://goo.gl/8qgKVL">Banshee Labyrinth</a>, <a target=_blank href="https://goo.gl/9qxrHA">Whistle Binkies</a>是使用地窖空间营业</p>来源:'+'<a target=_blank href="http://www.ancientpages.com/2016/06/04/frightening-edinburgh-vaults-the-spooky-underground-city-of-the-dead/">'+'http://www.ancientpages.com/2016/06/04/frightening-edinburgh-vaults-the-spooky-underground-city-of-the-dead/</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.948850, -3.186376),//St. Cecilia’s Hall Music Museum 圣瑟西莉雅厅音乐博物馆
+				label:{text:'85★',color:'#800000'},
+				pov:{heading:10,pitch: 4},
+				title:"圣瑟西莉雅厅音乐博物馆",
+				content:'<div id="iw-container">'+"<div class='iw-title'>85.圣瑟西莉雅厅音乐博物馆</div>"+'<div class="iw-content">'+'<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Edinburgh_St_Cecilia%27s_Hall.jpg/1280px-Edinburgh_St_Cecilia%27s_Hall.jpg">'+'<a target=_blank href="https://goo.gl/EWUXcL">'+'<br>点我在ＧoogleMap显示并规划路径，查看官网及营业日</a>'+'<div class="iw-subTitle"></div>'+"St. Cecilia’s Hall Music Museum 圣塞西莉亚大厅是苏格兰最古老的专用音乐厅。这座乔治亚风格的建筑最初由爱丁堡音乐协会于1762年建造，是一座真正隐藏的宝石，隐藏在爱丁堡Cowgate的中心地带。音乐博物馆展示了该大学无与伦比的乐器系列，包括世界著名的大键琴，其中一些可以演奏。世界使这个唯一的地方，它声称，你可以听到18世纪所播放的音乐-在18世纪乐器的设置。作为重建项目的一部分，由专门的保护官员保存了400多种仪器。这项工作仍在继续，该建筑设有专门的处理仪器空间。可在官方网站下载 APP，馆内导览机不足。</br><p>星期日休馆，星期二到星期六 10:00～17:00，星期六 12:00～17:00，八月星期六 10:00～17:00 免门票</p>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.946612, -3.185474),//Surgeons' Hall外科医生大厅 
+				label:{text:'86★＄',color:'#800000'},
+				pov:{heading:70,pitch: 8},
+				title:"Surgeons' Hall外科医生大厅",
+				content:'<div id="iw-container">'+"<div class='iw-title'>86.Surgeons' Hall外科医生大厅 </div>"+'<div class="iw-content">'+'<img src="https://images2.imgbox.com/b5/2b/qtmBuC98_o.jpg">'+'<a target=_blank href="https://goo.gl/AmGDyM">'+'点我在ＧoogleMap显示并规划路径，查看官网及营业日</a>'+"<br>从旧学院，走上尼科尔森街Nicolson Street。左边是外科医生大厅。这是爱丁堡皇家外科医学院的总部，1830年代搬到这里。这座建筑也是由威廉•亨利•普莱费尔William Henry Playfair设计的。学院可以追溯到16世纪，当时理发师协会进行了大部分外科手术。它有一个迷人的博物馆，展示了几个世纪以来外科手术的变化。</br><p>在启蒙时代，爱丁堡成为世界领先的医学教学与研究中心，曾一度约有一半的大学学生正在学习医学。该大学的医学院始建于1726年，尽管自16世纪以来一直在爱丁堡教授医学。实践经验，特别是在解剖学校，受到鼓励。这与在英格兰发现的更为理论的教学方法形成鲜明对比。因此，爱丁堡生产的医生和外科医生需求量很大，特别是整个大英帝国。来自爱丁堡的毕业生还在其它国家建立了著名的医学院，包括哈佛，耶鲁和悉尼的医学院。<p>从 1699 年开始，这个外科博物馆就陆陆续续收藏了各种各样的病理学标本，也保留了以前医学教育单位所使用的解剖学讲厅，旧馆中的解剖学教室的复刻版空间（如图）。馆内不只有人体器官标本，也收藏了自古至今的各种神奇的医疗器具。像是在维多莉亚时期人们迷信电流可以治病，当时的人们会让自己泡进通了微量电流的水池，希望身体健健康康、气血畅通。这类的小机器，在维多莉亚时期的药局都有贩卖，两条金属管要夹着左右两只手指，然后另一个人转动盒子的小手把产生微量电流，当时的人相信这可以治一些扭伤之类的疾病(一个现代电疗的概念)。</br></p>营业时间：周一～周日10:00-17:00 入内不能拍照 "+'<a target=_blank href="https://museum.rcsed.ac.uk/plan-your-visit/opening-hours-and-admission">'+'售票信息</a> 学生票£4</br>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.947604, -3.186362),//Old College 老学院
+				label:{text:'87★',color:'#800000'},
+				pov:{heading:250,pitch: 4},
+				title:"Old College 老学院",
+				content:'<div id="iw-container">'+"<div class='iw-title'>87.Old College 老学院</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/7yc9ts">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>老学院是爱丁堡大学的历史中心。苏格兰启蒙运动是一个用来描述十八世纪和十九世纪初盛行的基础广泛的知识运动的表达。该运动涉及广泛的领域，包括哲学，历史，科学，诗歌和医学。它也没有中央组织或单一统一的哲学，因此很难确定它是什么样的知识分子运动。也许最好把启蒙运动看作是一个增加宽容的时期，这使得有才能的人相对自由地发展他们的智力兴趣，而不管可能出现的最终结论如何。这一宽容时期恰逢廉价书籍和期刊形式的大众传播的发展。这使知识分子核心小组产生的想法能够得到广泛传播，满足日益增长的文化人口对知识日益增长的需求。</br><p>这位有争议的苏格兰哲学家和历史学家戴维休谟（David Hume，1711-76）将这个新时代人格化了。他因无神论信仰而臭名昭著，并被教会当局鄙视。虽然这在他的职业生涯中造成了困难，但这并不妨碍他能够发表自己的想法，或者与他想要的任何人自由混合。与早期的几个世纪相反，教会不再有像休谟被囚禁或烧毁一样麻烦的性格 - 太多有影响力的人对他所说的话感兴趣（不管他们是否公开承认它）。大学的相对进步的精神有助于为这种松散联系的知识分子运动的发展提供框架，许多在这次散步中提到的知名人士在那里接受教育或向学生团体传授他们的想法。</p></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.947486, -3.186988),//老学院的院子 
+				label:{text:'88',color:'#800000'},
+				pov:{heading:270,pitch: 10},
+				title:"老学院的院子",
+				content:'<div id="iw-container">'+"<div class='iw-title'>88.老学院的院子</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/djRtSr">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>在老学院的院子里散散步。大学的正式成立日期是1582年，尽管之前有一所法学院。基金会主要得益于市议会的努力，而不是特定的赞助人或宗教机构。这影响了大学的发展，到18世纪，它被认为比牛津大学或剑桥大学更具智力上的进步和不那么沉闷。入学也便宜得多，因此吸引了更广泛的社会各界。在18世纪，苏格兰被认为是世界上文化程度最高的人口，其中大部分归因于重建后教会学校的阅读和写作教学。 1696年的“学校法”还要求在每个教区都设立学校。</br><p>大学的学生通常在十几岁的时候就开始学习，并且可以参加这个时代一些伟大思想家的讲课。因此，启蒙运动的精神从有天赋的人转移到更广泛的观众。几十年来，大学遍布多个建筑物。然而，在1789年订阅被寻求创建一个新的综合家园。老学院是由启蒙时代最著名的建筑师罗伯特亚当（Robert Adam，1728-92）设计的。他在完成之前就去世了，但这个项目后来被同样天赋的威廉•亨利•普莱费尔William Henry Playfair（1790-1857）所接管。旧学院（或最初知道的新学院）到1830年基本完成。</p><p>虽然启蒙时代的智慧精神在18世纪的一些欧洲国家中显而易见，但苏格兰的进步在当时引起了特别的关注。法国哲学家伏尔泰（Voltaire，1694-1778）写道：“我们期待苏格兰所有的文明观念”，而本杰明富兰克林（1706-90）认为，“爱丁堡大学拥有一批真正伟大的人物，教授如同任何时代或国家所见过的几个知识分支“。<p></p>与大学有关的启蒙时期的一位重要科学家是化学家约瑟夫布莱克（Joseph Black1728-99）。他在格拉斯哥大学学习医学，并于1752年转入爱丁堡大学。他继续成为一位优秀的化学老师，并对特定和潜热进行了独创性研究 - 这直接帮助了蒸汽机的发展。布莱克还确定了“固定空气”，也就是所谓的二氧化碳，并且能够证明充满氢气的气球会上升，导致几年后第一次热气球飞行。近年来，老学院方形院的发掘发现了被认为已被黑人使用的化学仪器。<p>布莱克是詹姆斯瓦特（1736-1819）的密友，他在布莱克的研究帮助下，为改善蒸汽机做了很多工作，从而奠定了工业革命的基础。布莱克也与这次散步中遇到的其它人物（包括詹姆斯赫顿和亚当史密斯）密切交流。这是18世纪爱丁堡的典型特征 - 人口还相当小（1751年约有5万人）</p></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.947586, -3.186923),//庭院西南角 
+				label:{text:'89',color:'#800000'},
+				pov:{heading:180,pitch: 10},
+				title:"庭院西南角",
+				content:'<div id="iw-container">'+"<div class='iw-title'>89.庭院西南角 </div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/7t3sWp">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+"</br><br>庭院西南角的建筑今天被法学院的学生用作演讲厅。然而，这曾经是医学院的一部分，并且是解剖学课程中尸体解剖的地方。正是在这里，臭名昭著的连环杀手威廉伯克William Burke的尸体在他被处决后，于1829年被解剖学教授亚历山大•门罗Alexander Monro解剖。伯克的尸体通过秘密的地下隧道进入大学，该地下隧道至今仍存在其中一个办公室的活门）。伯克和他的同谋威廉黑尔在12个月内杀死了16人，尸体被卖给罗伯特诺克斯博士，以便他可以在私人解剖学课程中为学生教授解剖。</br></div>"+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.947383, -3.189735),//National Museums Scotland 苏格兰博物馆
+				label:{text:'90★',color:'#800000'},
+				pov:{heading:180,pitch: 10},
+				title:"苏格兰博物馆",
+				content:'<div id="iw-container">'+'<div class="iw-title">90.苏格兰博物馆</div>'+'<div class="iw-content">'+'<a target=_blank href="https://goo.gl/JFZYMd">'+'<br>点我在ＧoogleMap显示并规划路径，查看官网及营业日</a>'+'<img src="https://images2.imgbox.com/8a/fa/bqg3Uxnx_o.jpg">'+'<div class="iw-subTitle">多莉羊的遗体：在爱丁堡展出的成年细胞克隆的第一只哺乳动物的动物标本仍然存在。</div>'+"尽管绵羊多莉看起来像填充苏格兰乡村的其它羊毛动物，但她实际上是一个额外的特殊标本。她是有史以来第一个从成人细胞创建的克隆哺乳动物。这只羊是科学奇迹。她成功进入这个世界带来了她在科学界的国际声誉。在多莉之前，克隆成年哺乳动物的想法纯属科幻小说。多莉是从一只绵羊的乳腺中创造出来的。这是她如何得到她的名字。这只动物是以乡村歌手多莉帕顿（Dolly Parton）的名字命名的，作为负责制造羊的人之一，她拥有自己著名的一对令人印象深刻的乳腺。多莉于1996年出生于爱丁堡大学罗斯林研究所。尽管她的生命始于试管，她技术上有三个母亲（一只羊提供了蛋，另一只提供了DNA，另一只提供了胚胎），但她过着相当正常的生活。她甚至被允许繁殖，产下六只自己的羔羊，她在2003年因肺部肿瘤而死亡。你可以在爱丁堡的苏格兰国家博物馆National Museums Scotland里看到她的酿的遗骸，向着名的绵羊致敬。多莉只是在博物馆中看到和体验的许多东西之一。这座苏格兰国家博物馆里面总共有 6 个展馆，分别是世界文化展馆、自然历史生态馆、苏格兰历史馆、交通科技馆、时装艺术馆等等。</br>来源:"+'<a target=_blank href="https://www.atlasobscura.com/places/remains-of-dolly-the-sheep">'+'https://www.atlasobscura.com/places/remains-of-dolly-the-sheep</a>'+'<br>苏格兰博物馆官网：<a target=_blank href="https://www.nms.ac.uk/">'+'https://www.nms.ac.uk/</a>营业时间：周日～周一 10:00-17:00 免费入场，部分展览需要收费</br>'+'<br><div class="iw-subTitle">苏格兰国家博物馆的屋顶露台</div></br>当你来到这里，不要忘记把电梯一路走到7楼，出屋顶露台，非常值得查看它的全景。当然，爱丁堡有很多地方都有很好的有利位置，尤其是城市的七座山丘，但是在老城中心没有多少巴掌。除非你有足够的幸运住在附近的住处，否则这里是享受Auld Reekie屋顶和下面繁华街道景色的最佳场所之一，并且欣赏爱丁堡城堡广阔的景色，新镇，布莱德山和福斯湾。你甚至可以看到Greyfriars Kirkyard。<p>露台由雕塑家安迪戈尔兹沃斯设计，以纪念爱丁堡出生的詹姆斯赫顿，他被称为现代地质学的奠基人。砂岩块坐在甲板平台上，植物生活沿着露台的边缘代表苏格兰的景观，从沿海植物到草原植被的不同方面。</p>来源:'+'<a target=_blank href="https://www.atlasobscura.com/places/rooftop-terrace-national-museum-of-scotland">'+'https://www.atlasobscura.com/places/rooftop-terrace-national-museum-of-scotland</a>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.947144, -3.190979),//苏格兰国家博物馆,苏格兰画廊4楼
+				label:{text:'91',color:'#800000'},
+				pov:{heading:140,pitch: 10},
+				title:"苏格兰国家博物馆,苏格兰画廊4楼",
+				content:'<div id="iw-container">'+'<div class="iw-title">91.苏格兰国家博物馆,苏格兰画廊4楼</div>'+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/JFZYMd">'+'<br>点我在ＧoogleMap显示并规划路径，查看官网及营业日</a>'+'<div class="iw-subTitle">Burke＆Hare谋杀娃娃</div>'+"Burke＆Hare谋杀娃娃是爱丁堡著名的解剖学谋杀案受害者的微小肖像。在“解剖学杀手”Burke和Hare在爱丁堡被捕之后几年，两个男孩发现了这些小娃娃，每个都嵌入了一个隐藏在城市公园中的小型棺材。起初，关于玩具娃娃的重要性的理论从巫术到儿童玩具不等，但最终似乎十年前的17位谋杀受害者可能都是肖像。</br><p>在1827年至1828年间，威廉伯克和威廉黑尔引诱他们，并谋杀他们的住客，为当地解剖学校提供新鲜尸体。罗伯特诺克斯博士，一位杰出的当地解剖学讲师，购买了这些尸体，并且很可能知道他的供应链有些可疑。当另一位住客发现前一名房客的尸体并向警方报案时，这些罪行就暴露了出来。伯克和黑尔与伯克的情妇海伦麦克杜加尔和哈尔的妻子玛格丽特莱尔德一起被捕。尽管在诺克斯的教室里发现了这位最后一位住客的尸体，准备进行解剖，但证据并没有真正的受到破坏，直到哈尔打开伯克并给出了全面的认罪。1829年1月，威廉伯克被吊死。他的尸体被移交进行解剖，他的骨架和皮肤上的一本书仍保留在爱丁堡皇家外科医学院的藏品中。</p><p>直到1901年，四英寸长的玩具娃娃才由一位私人收藏家手中，当时他们八人被移交给苏格兰国家博物馆，在那里他们今天可以参观。尽管人们普遍认为这些神秘的小玩偶与Burke＆Hare的犯罪行为有关，但没有人确定凶手是谁创造了这些玩偶。2005年进行的使用从伯克骨骼中提取的DNA进行的DNA研究试图证明它们是为了平息威廉伯克的罪恶良心而创立的，但是这个测试证明是不确定的，所以他们创作的真相可能永远不会被人知道。伯克的死亡面具，骨架和皮肤上的一本书都在外科医生大厅博物馆的镇上。</p>来源:"+'<a target=_blank href="https://www.atlasobscura.com/places/burke-hare-murder-dolls">'+'https://www.atlasobscura.com/places/burke-hare-murder-dolls</a>'+'<br>苏格兰博物馆官网：<a target=_blank href="https://www.nms.ac.uk/">'+'https://www.nms.ac.uk/</a>营业时间：周日～周一 10:00-17:00 免费入场，部分展览需要门票</br>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.946845, -3.191914),//George Mackenzie's Mausoleum乔治麦肯齐的陵墓
+				label:{text:'92',color:'#800000'},
+				pov:{heading:180,pitch: 10},
+				title:"乔治麦肯齐的陵墓",
+				content:'<div id="iw-container">'+"<div class='iw-title'>92.乔治麦肯齐的陵墓</div>"+'<div class="iw-content">'+'<img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/Mackenzie_mausoleum%2C_Greyfriars.JPG">'+'<a target=_blank href="https://goo.gl/WMJEPQ">'+'<br>点我在ＧoogleMap显示并规划路径，查看官网及营业日</a>'+'<div class="iw-subTitle"></div>'+"在17世纪，苏格兰正在经历一场激烈的宗教斗争，由查尔斯国王开始介绍“共同祷告书”，并宣布所有反对这本书的人都是叛国行为，严厉的律师乔治麦肯齐George Mackenzie是负责反对派的人。乔治麦肯齐是查尔斯二世统治期间的一名律师和主提倡者，并且很快赢得了作为盟约最凶恶的迫害者之一的声誉，这些迫害者是1638年起义并签署了全国盟约的人。麦肯齐对抗议者的残酷和无情的对待甚至为他赢得了“Bluidy Mackenzie”的名字。许多爱尔兰人被关押在爱丁堡Greyfriars Kirkyard的一个区域，在那里他很高兴受到酷刑折磨; 允许警卫随意殴打圣徒，最终他们的头将装饰刺门。</br><p>在他去世后，麦肯齐被埋葬在Greyfriars Kirkyard的一座陵墓中，这里曾是许多亵渎圣地的地方。1999年，一个无家可归的男人在马肯齐的陵墓中寻求避难所，并从地板上掉下来（这个洞仍然可以看到）。在陵墓破坏后，人们报告了陵墓周围的怪异活动，包括划痕和瘀伤，都归因于麦肯齐的诡辩家，就像他在生命中那样可怕地死去。然而，这并没有吓倒一批在2004年闯入坟墓的青少年，并且剔除了一些身份不明的遗体，甚至斩首一具尸体，并像手傀儡一样使用头骨。几个世纪以来，他们被发现并试用了一种数百年的严重抢劫法律，形容为“侵犯坟墓”。由于许多违规行为，陵墓的门仍然锁着，但游客仍然可以偷看和背诵旧的儿童韵：“Bluidy Mackingie，如果你来了，赶快行动，提起酒吧吧！”</p>来源:"+'<a target=_blank href="https://www.atlasobscura.com/places/george-mackenzie-s-mausoleum">'+'https://www.atlasobscura.com/places/george-mackenzie-s-mausoleum</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.947163, -3.192783),//Greyfriars Kirkyard 灰衣修士教堂墓地
+				label:{text:'93',color:'#800000'},
+				pov:{heading:180,pitch: 10},
+				title:"灰衣修士教堂墓地",
+				content:'<div id="iw-container">'+"<div class='iw-title'>93.灰衣修士教堂墓地</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/WMJEPQ">'+'<br>点我在ＧoogleMap显示并规划路径，查看官网及营业日</a>'+'<div class="iw-subTitle">Greyfriars Kirkyard 灰衣修士教堂墓地是爱丁堡的一座墓地，黑暗与幽灵般的历史</div>'+"Greyfriars Kirkyard以爱丁堡最闹鬼的地方而闻名，许多人甚至不敢因为黑暗的声誉而去参观墓地。“kirk”一词的意思是“教堂”，所以一个kirkyard就是一个教堂墓地。墓地是教堂内的墓地。</br>从历史上看，灰衣修士最为人所知的是17世纪盟约者在Covenanter监狱中被血腥的乔治麦肯齐George Mackenzie迫害的墓地。在16世纪，罗马天主教被排挤出苏格兰。一群人在苏格兰签署了盟约，以维持长老会的教义并谴责教皇和天主教会。他们被称为盟约人，他们很快成为查理一世国王的一个大问题。全国契约于1638年在Greyfriar的Kirk签署，它宣誓维护改革宗教并拒绝天主教会的所有迷信。当国王查理一世试图对盟约人进行新的改革时，他们在主教之战中反抗并击败了国王。战争继续，盟约成为苏格兰的事实上的政府。后来，为英国议会而战的奥利弗克伦威尔将击败盟约人，到1652年，他们被摧毁。1679年又发生了一次叛乱，但它再次被击倒，多达1200名盟友被俘虏并被送入格雷弗里尔的Kirkyard的盟约监狱。在Covenanter监狱的恶劣环境中，有多达1,200名囚犯在这里被监禁，然后在Grassmarket上被绞死。到监禁结束时，只有400名盟约人还活着，他们被当作奴隶卖给巴巴多斯，他们中的大多数在运送他们的船毁坏时死亡。有一座纪念石因纪念他们的事业而遭受苦难。</p>来源:"+'<a target=_blank href="http://www.ancientpages.com/2016/09/16/mysterious-greyfriars-kirkyard-cemetery-edinburgh-dark-spooky-history/">'+'http://www.ancientpages.com/2016/09/16/mysterious-greyfriars-kirkyard-cemetery-edinburgh-dark-spooky-history/</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.946943, -3.191235),//Greyfriars Bobby Memorial Statue 忠狗Bobby雕像
+				label:{text:'94',color:'#800000'},
+				pov:{heading:280,pitch: 15},
+				title:"忠狗Bobby雕像",
+				content:'<div id="iw-container">'+"<div class='iw-title'>94.忠狗Bobby雕像</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/J1USgz">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"鲍比Bobby（1855/5/6 – 1872/1/14）是一只斯凯梗，在19世纪的爱丁堡成名，花了14年时间守护着他的主人的坟墓，直到他于1872年1月14日去世。这个故事出过几本书并拍成电影在苏格兰闻名。最著名的故事中鲍比Bobby的主人是约翰格雷，他曾在爱丁堡警察局担任守夜人。当约翰格雷去世时，他被埋葬在灰衣修士教堂墓地Greyfriars Kirkyard，鲍比随后在当地成名，他的余生都坐在他主人的坟墓上。据说鲍比已经在坟墓里待了14年。他于1872年去世并且被埋在灰衣修士教堂墓地的大门内，距离约翰格雷的坟墓不远。1867年，爱丁堡的威廉•钱伯斯爵士，同时也是苏格兰防止虐待动物协会的主任，支付了鲍比的执照并给了狗一个衣领，现在在爱丁堡博物馆。一年后，英国慈善家Lady Burdett-Coutts被这个故事迷住了，并且在乔治四世大桥和Candlemaker Row 交界处（教堂入口对面）竖立了一个饮水机，上面摆着鲍比的雕像（由雕塑家William Brodie委托）纪念他。</br><p>虽然这只忠犬的故事曾经被人质疑过其真实性，也有人怀疑这是墓园附近的商家为了增加观光客的人数而夸大故事的情节。</p>来源:"+'<a target=_blank href="https://en.wikipedia.org/wiki/Greyfriars_Bobby">'+'维基百科</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.947582, -3.191659),//The Elephant House大象咖啡馆
+				label:{text:'95＄',color:'#800000'},
+				pov:{heading:270,pitch: -15},
+				title:"The Elephant House大象咖啡馆",
+				content:'<div id="iw-container">'+"<div class='iw-title'>95.大象咖啡馆</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/KL5oKt">'+'<br>点我在ＧoogleMap显示并规划路径，查看营业日及菜单</a>'+'<div class="iw-subTitle"></div>'+"The Elephant House大象咖啡屋开幕于1995年，孵育出无数优秀的作家，除了 J.K. Rowling 以外，像是 Ian Rankin, Alexander McCall-Smith 等等，可以说是一个人文荟萃的好地方。据说 J.K Rowling 在成名之后也还是很常造访店内，而且进出都是利用大象咖啡屋的后门悄悄的溜进去，然后躲在后面一个专属于她的房间书写。</br>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.945232, -3.190253),//The Anatomical Museum 解剖学博物馆
+				label:{text:'96',color:'#800000'},
+				pov:{heading:150,pitch: 10},
+				title:"The Anatomical Museum 解剖学博物馆",
+				content:'<div id="iw-container">'+"<div class='iw-title'>96.解剖学博物馆</div>"+'<div class="iw-content">'+'<img src="https://images2.imgbox.com/3e/86/aEkv15zX_o.jpg"><img src="">'+'<a target=_blank href="https://goo.gl/L1Wsrm">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"The Anatomical Museum 解剖学博物馆包含12,000件物品和标本，讲述了爱丁堡大学300年解剖学教学的故事。博物馆馆藏的三分之一与病理学，解剖学和动物学有关。这包括解剖学教学模型，人类骨骼遗骸，干燥和流体保存的标本。其余的系列包括颅相学，药理学，人类学，人种学，法医学和艺术作品。博物馆展示了许多独特的物品，包括乔治布坎南的头骨（詹姆斯六世的导师），一个解剖身体，展示注入汞的淋巴系统（1788年）和臭名昭著的凶手威廉伯克（1829年）的骨架。</br><p>解剖学博物馆仅在特定日期向公众开放，在其它时候，博物馆是医学生的学习空间，没有访客访问。由于管理人类遗骸展示的法律，博物馆严格禁止摄影或拍摄。2018年的开访时间是8/10及8/16 10:00-15:00 "+'<a target=_blank href="https://www.ed.ac.uk/biomedical-sciences/anatomy/anatomical-museum/visit-us">'+'其它时间及细节</a>'+"</p>来源:"+'<a target=_blank href="https://www.ed.ac.uk/visit/museums-galleries/anatomical">'+'爱丁堡大学官网</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.945440, -3.189133),//William McEwan麦克尤恩大厅
+				label:{text:'97',color:'#800000'},
+				pov:{heading:0,pitch: 20},
+				title:"William McEwan麦克尤恩大厅",
+				content:'<div id="iw-container">'+"<div class='iw-title'>97.William McEwan麦克尤恩大厅</div>"+'<div class="iw-content">'+'<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/McEwan_Hall_refurbished_interior_dome.jpg/1280px-McEwan_Hall_refurbished_interior_dome.jpg">'+'<a target=_blank href="https://goo.gl/WJuaA8">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"这栋建筑物于1897年由酿酒商和政治家William McEwan以11.5万英镑的价格赠送给爱丁堡大学，D形大厅的外观于1894年完工。内部建于1897年，以意大利文艺复兴风格建造，并配有William Mainwaring Palin手中的壁画装饰。中心艺术品是一幅名为“名人堂”的大型彩绘作品，描绘了大量的哲学家和学生。McEwan Hall风琴由Robert Hope-Jones于1897年建造，并在之后的各种场合进行了重建和修改。McEwan Hall的另一个显著特点是它的大圆顶。在圆顶的内部是一个圣经的题词：智慧是主要的东西，因此获得智慧，并获得你的一切，获得理解。高举她，她将带给你荣誉。（箴言4：7）。</br>来源:"+'<a target=_blank href="https://en.wikipedia.org/wiki/McEwan_Hall">'+'维基百科</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.941293, -3.195081),//The Meadows 麦道斯公园
+				label:{text:'98★',color:'#800000'},
+				pov:{heading:90,pitch: 10},
+				title:"The Meadows 麦道斯公园",
+				content:'<div id="iw-container">'+"<div class='iw-title'>98.The Meadows 麦道斯公园</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/bY3QWc">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"对爱丁堡的学生来说，常常会经过这里往Ｍain Library。在圆环那处，常会有街头艺人弹吉他唱歌，为这片绿地增添音乐气息及悠闲感。规划的自行车道，不同于爱丁堡某些地方上下难行，是平坦又安全的车道，一整片的绿茵在你面前展开。春天的时候，樱花开得特别茂盛，喜欢拍照的人千万不要错过。爱丁堡人会在聚集，聊天或野餐烤肉。这也是常常举办活动的地点（可以由FaceBook上追踪活动），像是下雪时有丢雪球大战，五月有夏日节游乐园。</br><p>关于麦道斯的历史，最初被称为“burgh loch”或后来的“南湖”，它在17世纪中期被部分排干，使沼泽地变成一个公园，沿着边缘的路径，树篱，椴树林荫道，排水渠和避暑别墅。中间的绿树成荫的路径被称为Middle Meadow Walk，几十年来，地图将这个区域标记为“The Meadows or Hope Park”。它是皇家弓箭手的传统练习场。在19世纪70年代，麦道斯成为爱丁堡早期足球发展的重要场所，在使用Meadows的众多初出茅庐的队伍中，有Midlothian FC之心和Hibernian FC，后来成为这个城市的优秀球队</p>来源:"+'<a target=_blank href="https://en.wikipedia.org/wiki/The_Meadows_(park)">维基本科'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.944059, -3.161796),//Arthur’s Seat 阿瑟王座
+				label:{text:'99✭',color:'#800000'},
+				pov:{heading:0,pitch: -15},
+				title:"Arthur’s Seat 阿瑟王座",
+				content:'<div id="iw-container">'+"<div class='iw-title'>99.Arthur’s Seat 阿瑟王座</div>"+'<div class="iw-content">'+'<a target=_blank href="https://goo.gl/G8hoQY">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"阿瑟王座很常被人们认为是与阿瑟王传说有关，在传统的苏格兰民谣和诗歌中似乎找不到和阿瑟王直接相关的名字。有学者主张说 Arthur’s Seat 是从古方言 “Àrd-na-Said“ 谐音而来的，意思是箭的高度。登顶的高度比卡尔顿山高得多，能够看到更远的风景</br>"+'<p>路线介绍<br>1.最短又最快的路线是从Dunsapie Loch湖出发，经过一个陡坡，路上的风景较差，Dunsapie Loch附近有停车场。<a target=_blank href="https://goo.gl/XYo6uQ">点我看Google Map路线 </a></br><br><a target=_blank href="https://goo.gl/9eZacc"></a>2.出发点靠近Holyrood，风景最好的路径，不陡，来回约两小时。<a target=_blank href="https://goo.gl/SHBCnA">点我看Google Map路线 </a></br><br>3.从Holyrood附近出发，不会经过山顶，路程也比2.快，约一个多小时。<a target=_blank href="https://goo.gl/D6z1aw">点我看Google Map路线 </a></br><br>4.这条路线非常陡峭，不建议攀爬，阿瑟山上有时天气变化较大，一会的时间就下雨，泥泞路容易滑，是比较危险的路径<a target=_blank href="https://goo.gl/H4h1Hp">点我看Google Map路线 </a> 另外注意，阿瑟山是没有厕所的</br>'+'<img src="https://images2.imgbox.com/60/ca/8hrZENt9_o.jpg">'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.946351, -3.152274),//Dunsapie Loch湖
+				label:{text:'100',color:'#800000'},
+				pov:{heading:300,pitch: -20},
+				title:"Dunsapie Loch",
+				content:'<div id="iw-container">'+"<div class='iw-title'>100.Dunsapie湖</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/Aw7ddN">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"在皇后大道建设期间人工形成，这个水库是许多品种的野禽的家园，包括灰鹅，疣鼻天鹅，绿头鸭/簇绒鸭，白骨顶和潜鸭。鉴于地面的性质和泉水的存在，这里的供水必须是一致的。 没有自然植被，因此在湖中心的浮岛，为繁殖鸟类提供居住。</br></p>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.947575, -3.167330),//Salisbury Crags 索尔兹伯里峭壁
+				label:{text:'101★',color:'#800000'},
+				pov:{heading:220,pitch: 10},
+				title:"Salisbury Crags 索尔兹伯里峭壁",
+				content:'<div id="iw-container">'+"<div class='iw-title'>101.索尔兹伯里峭壁</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/PfqwzY">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"</br><br>Arthur's Seat其实并不是公园内最适合爱丁堡景色的地方。如果你在寻找绝佳风景，你应该找到通往索尔兹伯里峭壁顶部的道路。虽然海拔较低，但是这座城市的大部分地区都非常接近，这让人感到迷人。留神你的脚步不要踏空，这里的悬崖是急下的。索尔兹伯里峭壁非常险峻，常吸引热爱攀岩的同好</br><p>就像爱丁堡城堡建造的岩石一样，它是由石炭纪时代已经灭绝的火山系统形成的（熔岩样本的年龄为34至3.35亿年），被一条从西向东移动的冰川侵蚀在第四纪（大约过去两百万年）期间，将岩石峭壁暴露在西方，并留下一条东西横扫东部，这就是索尔兹伯里岩石形成的方式</p>来源:"+'<a target=_blank href="https://www.undiscoveredscotland.co.uk/edinburgh/holyroodpark/index.html">'+'holyroodpark</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.951779, -3.217798),// Dean Village 迪恩村 
+				label:{text:'103',color:'#800000'},
+				pov:{heading:0,pitch: 10},
+				title:"Dean Village 迪恩村",
+				content:'<div id="iw-container">'+"<div class='iw-title'>102.Dean Village 迪恩村</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/iFzyqG">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"距离王子街（Princes Street）有5分钟的路程，游客可以在莱斯河（Water of Leith）旁找到迪恩村（Dean Village），这是一片美丽适合拍照的秘境。Dean Village以前曾在那里进行水磨坊的研磨，其中的遗留物仍然可以被游客看到。隐藏在村庄里，您会看到各种磨石和用烤面包和馅饼装饰的石板。如果您沿着利斯之水沿着人行道行走，也可以找到迪恩桥。Bridge和St Bernard's Well都是由Thomas Telford设计的。村庄的中心是Well Court，这是该村最具代表性的建筑。这座建筑建于19世纪80年代，是在水磨坊工作的当地工人。 距离酒店仅几步之遥的游客可以浏览迪恩画廊和苏格兰国家现代艺术画廊的展览。这两座建筑物之前都经过翻新和翻新，可用作艺术画廊，许多展览都是免费的。</br></p>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9509177,-3.1610863),//Saint Anthony's Chapel圣安东尼教堂
+				label:{text:'102',color:'#800000'},
+				pov:{heading:300,pitch: 10},
+				title:"Saint Anthony's Chapel圣安东尼教堂",
+				content:'<div id="iw-container">'+"<div class='iw-title'>102.圣安东尼教堂</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/x3yH4M">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"圣安东尼教堂很可能与位于西北方几百码外的荷里路德修道院密切相关。两者之间由一条制作精良的石头轨道（现已严重磨损）连接在一起，可以看到仍然可以看到的突出的路缘石，沿着这条轨道通往教堂的大约四分之三的路径是春天和雕刻的石碗，被称为圣安东尼井。有人认为，这座教堂是一种宗教信仰灯，旨在让海上朝圣者在他们航行至福斯河时前往荷里路德修道院时清晰可见。</br></p>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(),//
+				label:{text:'',color:'#800000'},
+				pov:{heading:180,pitch: 10},
+				title:"",
+				content:'<div id="iw-container">'+"<div class='iw-title'></div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="">'+'<br>点我在ＧoogleMap显示并规划路径</a>'+'<div class="iw-subTitle"></div>'+"</br></p>来源:"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.949813, -3.190564),//玛丽金厕所
+				label:{text:'wc',color:'#ffffff'},
+				pov:{heading:0,pitch: 10},
+				icon:"https://images2.imgbox.com/8c/75/VUOSb1A2_o.png",
+				content:'<div class="iw-subTitle">玛丽金巷旁的巷子内有厕所</div>'
+			},{
+				position: new google.maps.LatLng(55.9517684,-3.1987805),//Primark厕所
+				label:{text:'wc',color:'#ffffff'},
+				pov:{heading:360,pitch: 10},
+				icon:"https://images2.imgbox.com/8c/75/VUOSb1A2_o.png",
+				content:'<div class="iw-subTitle">走入Primark 一楼的更衣室左边有厕所</div>'+'<a target=_blank href="https://goo.gl/B6nw3C">'+'<br>点我在ＧoogleMap显示并规划路径</a>'
+			},{
+				position: new google.maps.LatLng(55.9526022,-3.1921114),//Waverley Mall厕所
+				label:{text:'wc$',color:'#ffffff'},
+				pov:{heading:130,pitch: 10},
+				icon:"https://images2.imgbox.com/8c/75/VUOSb1A2_o.png",
+				content:'<div class="iw-subTitle">Waverley Mall地下一楼有厕所（需投币）</div>'+'<a target=_blank href="https://goo.gl/WAU9WJ">'+'<br>点我在ＧoogleMap显示并规划路径</a>'
+			},{
+				position: new google.maps.LatLng(55.9533584,-3.1915721),//KFC厕所
+				label:{text:'wc',color:'#ffffff'},
+				pov:{heading:90,pitch: 10},
+				icon:"https://images2.imgbox.com/8c/75/VUOSb1A2_o.png",
+				content:'<div class="iw-subTitle">KFC消费后可问厕所密码，密码不定期更换</div>'+'<a target=_blank href="https://goo.gl/uWPHk9">'+'<br>点我在ＧoogleMap显示并规划路径</a>'
+			},{
+				position: new google.maps.LatLng(55.9533381,-3.1915307),//麦当劳厕所
+				label:{text:'wc',color:'#ffffff'},
+				pov:{heading:115,pitch: 10},
+				icon:"https://images2.imgbox.com/8c/75/VUOSb1A2_o.png",
+				content:'<div class="iw-subTitle">麦当劳消费后可问厕所密码，密码不定期更换</div>'+'<a target=_blank href="https://goo.gl/aXJcjh">'+'<br>点我在ＧoogleMap显示并规划路径</a>'
+			},{
+				position: new google.maps.LatLng(55.9503827,-3.2066424),//麦当劳厕所
+				label:{text:'wc',color:'#ffffff'},
+				pov:{heading:10,pitch: 10},
+				icon:"https://images2.imgbox.com/8c/75/VUOSb1A2_o.png",
+				content:'<div class="iw-subTitle">麦当劳消费后可问厕所密码，密码不定期更换</div>'+'<a target=_blank href="https://goo.gl/GAJjTv">'+'<br>点我在ＧoogleMap显示并规划路径</a>'
+			}
+		];
+			var fenway = {lat: 55.950561, lng: -3.184250};//lat: 55.950s561, lng: -3.184250
+		 	var panorama = new google.maps.StreetViewPanorama(
+            document.getElementById('pano'), {
+              position: fenway,  
+              pov: {
+                heading: 180,
+                pitch: 0
+              },
+            });
+        map.setStreetView(panorama);
+		
+		features.forEach(function(features){
+			var marker = new google.maps.Marker({//地图上的标记
+				position: features.position,
+				label: features.label,
+				title: features.title,
+				icon: features.icon,
+				map: map,
+			});
+			var infowindow = new google.maps.InfoWindow({
+				title:features.title,
+				content: features.content,
+			});
+			var streetMarker=new google.maps.Marker({//街景上的标记
+				position: features.position,
+				label: features.label,
+				content:features.content,
+				title: features.title,
+				icon: 'https://images2.imgbox.com/d7/11/vw0jHPG9_o.png',
+				map:panorama,
+			});
+			marker.addListener('click', function() {
+				var sidebar = document.getElementById("sidebar");
+				map.setCenter(marker.getPosition());
+				map.setCenter(streetMarker.getPosition());
+				panorama.setPosition(features.position);
+				panorama.setPov(features.pov);
+				panorama.setZoom(features.zoom);
+				map.setStreetView(panorama);
+				//sidebar.innerHTML = marker.getTitle();
+				sidebar.innerHTML = infowindow.getContent();
+
+			});
+			marker.addListener("mouseover", function() {
+				inforwindow.getTitle();
+    			//infowindow.open(map,marker);
+			});
+			marker.setMap(map);
+			var a =-1;
+			streetMarker.addListener('click', function(e) {
+				a = a * -1;
+				if(a>0){
+				  this.setIcon("https://images2.imgbox.com/25/d7/6evpGhIo_o.png");
+				  marker.setIcon("https://images2.imgbox.com/25/d7/6evpGhIo_o.png");
+				  inforwindow.getTitle();
+				}else{
+				  this.setIcon("https://images2.imgbox.com/d7/11/vw0jHPG9_o.png");
+				  marker.setIcon();
+				}
+			});
+			google.maps.event.addListener(infowindow, 'closeclick', function(){
+			});
+       });
+      }
+    </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWqM3x9_-ak3LkWf-TK_OD0-ysoDEbIj4&callback=initMap"
+    async defer></script>
+</body>
+</html>
+
