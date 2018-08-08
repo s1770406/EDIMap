@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html><head>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+<style>
+html,body{  
+	margin:0px;  
+	height:100%;  
+} 
+#pano {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+    height:100%;
+    width: 70%;
+	border: thin solid #E0DFDE;
+}
+#map {
+	width:29.8%;
+	height:30%;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	z-index: 2;
+	border: thin solid #E0DFDE;
+	border-left: none;
+}
+#sidebar {
+	height:70%;
+	width: 29.8%;
+	position: absolute;
+	left: 0px;
+	bottom: 0px;
+	background-color:#F2F4F7;
+	border: thin solid #E0DFDE;
+	margin:0px auto;
+	font-family:sans-serif;
+	text-align: justify;
+	text-justify:inter-ideograph;
+	font-size:16px;
+	color:#666;
+}
+#sidebar img{
+	max-width:370px; 
+	myimg:expression(onload=function(){ 
+	this.style.width=(this.offsetWidth > 370)?"370px":"auto"});
+	margin:auto;
+	text-align: center:
+}
+#link{
+	text-align: left;
+}
+a{
+	color: #84A3F1;
+	font-size: 14px;
+}
+h1{
+	text-align: left;
+}
+.gm-style-iw {
+	width:400px !important;
+	top: 15px !important;
+	left: 0px !important;
+	background-color: #fff;
+	box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6);
+	border: 1px solid rgba(72, 181, 233, 0.6);
+	border-radius: 2px 2px 10px 10px;
+}
+#iw-container {
+	margin-bottom: 10px;
+}
+#iw-container .iw-title {
+	font-family: 'Open Sans Condensed', sans-serif;
+	font-size: 22px;
+	font-weight: 400;
+	padding: 10px;
+	background-color: #cccccc;
+	color: white;
+	margin: 0;
+	border-radius: 2px 2px 0 0;
+}
+#iw-container .iw-content {
+	font-size: 13px;
+	line-height: 18px;
+	font-weight: 400;
+	margin-right: 1px;
+	padding: 15px 5px 20px 15px;
+	max-height: 455px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+.iw-content img {
+	margin: 10 5px 5px 10px;	
+	text-align: center;
+	width: 80%;
+}
+.iw-subTitle {
+	font-size: 16px;
+	font-weight: 700;
+	padding: 5px 0;
+}
+.iw-bottom-gradient {
+	position: absolute;
+	width: 100%;
+	height: 25px;
+	bottom: 20px;
+	right: 18px;
+	background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+	background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+	background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+	background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+}
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div id="sidebar">
+	<div id="iw-container">
+		<div class='iw-title'>Marks & Spencer outlet</div>
+		<div class="iw-content"><a target=_blank href="https://goo.gl/PJVtQV"><br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a><div class="iw-subTitle"></div>這裡是一個大型商場，Marks & Spencer outlet是其中一間，有全年特價的清倉服飾。相連的還有非常便宜的Poundstretcher以及Poundland，在這裡可以買到生活用品，棉被、床單組、碗盤、清潔劑等等，請查看官網有詳細商品，相對於市中心便宜很多。TK Maxx主要買的從雜貨、鍋具、服飾到家具都有，東西很多也很齊。</br></p><a target=_blank href="https://goo.gl/9QBkz9">TK Maxx</a><br><a target=_blank href="https://goo.gl/RBFw9n">Poundland</a></br><br><a target=_blank href="https://goo.gl/m1Rrx6">Poundstretcher</a></br><div class="iw-bottom-gradient"></div></div>
+	</div>
+</div>	
+<div id="pano"></div>
+<script>
+	
+	function initMap() {
+		  //var sidebar = document.getElementById("sidebar"),
+		  //sidebar.innerHTML = infowindow.getContent();
+
+		  var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 13,
+          center: new google.maps.LatLng(55.958453,-3.1650096),//
+		  zoomControl: true,
+    	  zoomControlOptions: {
+			  position: google.maps.ControlPosition.RIGHT_CENTER
+		  },
+		  streetViewControl:true,
+		  streetViewControlOptions: {
+			  position: google.maps.ControlPosition.RIGHT_CENTER
+    		},
+			  mapTypeControl:false,
+		  //map style
+			styles: [{"elementType":"geometry","stylers":[{"hue":"#ff4400"},{"saturation":-68},{"lightness":-4},{"gamma":0.72}]},{"featureType":"road","elementType":"labels.icon"},{"featureType":"landscape.man_made","elementType":"geometry","stylers":[{"hue":"#0077ff"},{"gamma":3.1}]},{"featureType":"water","stylers":[{"hue":"#00ccff"},{"gamma":0.44},{"saturation":-33}]},{"featureType":"poi.park","stylers":[{"hue":"#44ff00"},{"saturation":-23}]},{"featureType":"water","elementType":"labels.text.fill","stylers":[{"hue":"#007fff"},{"gamma":0.77},{"saturation":65},{"lightness":99}]},{"featureType":"water","elementType":"labels.text.stroke","stylers":[{"gamma":0.11},{"weight":5.6},{"saturation":99},{"hue":"#0091ff"},{"lightness":-86}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"lightness":-48},{"hue":"#ff5e00"},{"gamma":1.2},{"saturation":-23}]},{"featureType":"transit","elementType":"labels.text.stroke","stylers":[{"saturation":-64},{"hue":"#ff9100"},{"lightness":16},{"gamma":0.47},{"weight":2.7}]}]			
+		//map style end	
+        });
+		google.maps.event.addListener(map, 'click', function() {  //關閉地圖其他資訊視窗
+			infowindow.close(panorama, streetMarker);
+		});
+		var map;
+		var features =[
+			{
+				position: new google.maps.LatLng(55.9423333,-3.1823024),//星光便利
+				pov:{heading:290,pitch: 10},
+				title:"星光便利",
+				icon:"https://images2.imgbox.com/bc/96/Lsh54sMb_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>星光便利</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/wXJYNZ">'+'<br>點我在ＧoogleMap顯示官網並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"華人超市，要一定金額才可用銀行卡付帳，金額少以現金付款，種類多，也有電鍋及陶鍋等中式餐具及簡單的生活用品。在小店購物或網店訂貨滿30鎊，駕車5公里以內即可送貨（EH4 EH5 EH6 EH7 EH13 EH15 暫不支持送貨，EH10 EH14部分地區不支持）。運費：2公里內免費；2-2.99公里：1英鎊; 3-5公里：2英鎊。滿50鎊即可免運費。官網有詳細商品介紹</br></p>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9438419,-3.1841299),//愛華超市
+				pov:{heading:18,pitch: 10},
+				title:"愛華超市",
+				icon:"https://images2.imgbox.com/bc/96/Lsh54sMb_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>愛華超市</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/HTFM9o">'+'<br>點我在ＧoogleMap顯示並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"較便宜的華人超市，種類多。滿20磅可送貨，不限金額可用銀行卡付款。</br></p>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9337864,-3.1781466),//Hua Xing 華興海鮮行
+				pov:{heading:229,pitch: 10},
+				title:"Hua Xing 華興海鮮行",
+				icon:"https://images2.imgbox.com/bc/96/Lsh54sMb_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>Hua Xing 華興海鮮行</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/mKcTze">'+'<br>點我在ＧoogleMap顯示並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"可買到生鮮食品，特別以麵包蟹、檉子、貝類...等有名</br></p>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9395166,-3.1797874),//Superior Oriental 信之優品
+				pov:{heading:260,pitch: 10},
+				title:"Superior Oriental 信之優品",
+				icon:"https://images2.imgbox.com/bc/96/Lsh54sMb_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>Superior Oriental 信之優品</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="">'+'<br>點我在ＧoogleMap顯示位置及官網並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"中國、日、韓食品，官網有商品介紹</br></p>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.955841, -3.186511),//Car Boots Sale 車庫拍賣
+				pov:{heading:100,pitch: 10},
+				title:"Car Boots Sale 車庫拍賣",
+				icon:"https://images2.imgbox.com/bc/96/Lsh54sMb_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>54.車庫拍賣</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="">'+'<br>點我在ＧoogleMap顯示並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"如果你喜歡逛跳蚤市場、逛二手商品，在Omni Centre地下四樓停車場的車庫拍賣，可以滿足你的需要。每週日9:00-13:00賣家們會開車到地下停車場擺攤，許多愛丁堡人喜歡在這裡挖寶。你可以看到二手書、黑膠唱片、衣物、鞋子、腳踏車、餐具，任何搬家出清品都會在這裡，有時也會有賣場賣不出去的零碼商品。攤位也會因為每週的賣家不同有不同的拍賣物品。這裡需要花一小時的時間才可以逛完，可以說是愛丁堡最大的二手市集了！</br><p>Omni Centre對面是英國連鎖型的John Lowis百貨公司，喜歡購物的夥伴們，也能在這裡逛各種品牌商品。</p>"+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.8805941,-3.1684152),//IKEA宜家家居
+				pov:{heading:188,pitch: 10},
+				title:"IKEA宜家家居",
+				icon:"https://images2.imgbox.com/bc/96/Lsh54sMb_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>IKEA宜家家居</div>"+'<div class="iw-content">'+'<img src="https://goo.gl/xKtGG3">'+'<a target=_blank href="https://goo.gl/gMcY4Ks">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"是以瑞典為基地的跨國居家用品零售企業，據點分布世界多國，販售平整式包裝的傢具、配件、浴室和廚房用品。裡面有瑞典為主要料理的平價餐廳</br></p>"+'<a target=_blank href="https://www.tripadvisor.com.tw/Restaurant_Review-g186525-d7995090-Reviews-IKEA-Edinburgh_Scotland.html">'+'點我看餐廳介紹或評論</a>'+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9481156,-3.1821345),//愛丁堡大學健身中心
+				pov:{heading:85,pitch: 10},
+				title:"愛丁堡大學健身中心Pleasance Sports Centre & Gym",
+				content:'<div id="iw-container">'+"<div class='iw-title'>愛丁堡大學健身中心Pleasance Sports Centre & Gym</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/MJ4cc1">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"學生有會員優惠，詳請點擊在上面網址中的官網連結</br></p>"+'<a target=_blank href="">'+'</a>'+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9496122,-3.1800158),//St. Leonard's Land, The University of Edinburgh
+				pov:{heading:136,pitch: 10},
+				title:"愛丁堡大學游泳池",
+				content:'<div id="iw-container">'+"<div class='iw-title'>St. Leonard's Land, The University of Edinburgh愛丁堡大學游泳池</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/jD37s3">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"</br></p>"+'<a target=_blank href="">'+'</a>'+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9446956,-3.1838399),//Tesco Metro
+				pov:{heading:69,pitch: 10},
+				title:"Tesco Metro超市",
+				icon:"https://images2.imgbox.com/bc/96/Lsh54sMb_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>Tesco Metro超市</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/US8wm7">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"Tesco是英國大型的連鎖超市，在Nicolson Street上可以看到幾間，這間是較大，東西很多，常有特價的一間。通常小的Tesco比較不常有特價，東西也比較少。這附近的Tesco也買一點亞洲商品，例如米，辛拉麵...等迎合亞洲學生的需要。愛丁堡Tesco及Sainsbury這兩間超市很多。</br></p>"+'<a target=_blank href="https://goo.gl/dbvgNE">'+'查看愛丁堡的Tesco</a>'+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9455471,-3.1845977),//Lidl超市
+				pov:{heading:63,pitch: 10},
+				title:"Lidl超市",
+				icon:"https://images2.imgbox.com/bc/96/Lsh54sMb_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>Lidl超市</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/6whTxA">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"Lidl超市是相對Tesco及Sainsbury價格再更便宜的連鎖英國超市</br></p>"+'<a target=_blank href="">'+'</a>'+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9455742,-3.1846905),//Sainsbury's超市
+				pov:{heading:42,pitch: 10},
+				title:"Sainsbury's超市",
+				icon:"https://images2.imgbox.com/bc/96/Lsh54sMb_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>Sainsbury's超市</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/Q7KYYZ">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"</br></p>"+'<a target=_blank href="">'+'</a>'+'<a target=_blank href="https://goo.gl/FpwTLT">'+'查看愛丁堡的Sainsbury超市</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9524271,-3.1949543),//Marks & Spencer 
+				pov:{heading:0,pitch: 10},
+				title:"Marks & Spencer",
+				icon:"https://images2.imgbox.com/bc/96/Lsh54sMb_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>Marks & Spencer </div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/RCEQRr">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"Marks & Spencer一樓是服飾，往下走有生鮮超市，價格偏高</br></p>"+'<a target=_blank href="">'+'</a>'+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.958453,-3.1650096),//Marks & Spencer outlet
+				label:{text:'★',color:'#800000'},
+				pov:{heading:324,pitch: 10},
+				title:"Marks & Spencer outlet",
+				icon:"https://images2.imgbox.com/bc/96/Lsh54sMb_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>Marks & Spencer outlet</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/PJVtQV">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"這裡是一個大型商場，Marks & Spencer outlet是其中一間，有全年特價的清倉服飾。相連的還有非常便宜的Poundstretcher以及Poundland，在這裡可以買到生活用品，棉被、床單組、碗盤、清潔劑等等，請查看官網有詳細商品，相對於市中心便宜很多。TK Maxx主要買的從雜貨、鍋具、服飾到家具都有，東西很多也很齊。</br></p>"+'<a target=_blank href="https://goo.gl/9QBkz9">'+'TK Maxx</a>'+'<br><a target=_blank href="https://goo.gl/RBFw9n">'+'Poundland</a></br>'+'<br><a target=_blank href="https://goo.gl/m1Rrx6">'+'Poundstretcher</a></br>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9517684,-3.1987805),//Primark服飾店
+				pov:{heading:360,pitch: 10},
+				title:"Primark服飾店",
+				icon:"https://images2.imgbox.com/bc/96/Lsh54sMb_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>Primark服飾店</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/dhZa45">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"王子街的知名品牌及高級品有很多，這裡介紹偏學生價位的Primark，衣服種類很多。</br></p>"+'<a target=_blank href="">'+'</a>'+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(55.9514459,-3.200572),//Boots美妝用品店
+				pov:{heading:357,pitch: 10},
+				title:"Boots美妝用品店",
+				icon:"https://images2.imgbox.com/bc/96/Lsh54sMb_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'>Boots美妝用品店</div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="https://goo.gl/FbR94t">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"這邊介紹英國較大的美妝用品店，除了美妝、身體、保養品，二樓販賣藥品及眼鏡等用品。Boots有很多連鎖店，其中王子街這間是較大間的</br></p>"+'<a target=_blank href="https://goo.gl/GzwCC2">'+'查看愛丁堡的boots</a>'+'<br><a target=_blank href="https://www.bangli.uk/post/12887">'+'網路上的推薦文</a></br>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			},{
+				position: new google.maps.LatLng(),//
+				pov:{heading:180,pitch: 10},
+				title:"",
+				icon:"https://images2.imgbox.com/bc/96/Lsh54sMb_o.png",
+				content:'<div id="iw-container">'+"<div class='iw-title'></div>"+'<div class="iw-content">'+'<img src="">'+'<a target=_blank href="">'+'<br>點我在ＧoogleMap顯示營業時間官網，並規劃路徑</a>'+'<div class="iw-subTitle"></div>'+"</br></p>"+'<a target=_blank href="">'+'</a>'+'<a target=_blank href="">'+'</a>'+'</div>'+'<div class="iw-bottom-gradient"></div>'+'</div>'
+			}
+			
+		];
+			var fenway = {lat:55.958453, lng:-3.1650096};//55.958453,-3.1650096
+		 	var panorama = new google.maps.StreetViewPanorama(
+            document.getElementById('pano'), {
+              position: fenway,  
+              pov: {
+                heading:290 ,
+                pitch: 0
+              },
+            });
+        map.setStreetView(panorama);
+		
+		features.forEach(function(features){
+			var marker = new google.maps.Marker({//地圖上的標記
+				position: features.position,
+				label: features.label,
+				title: features.title,
+				icon: features.icon,
+				map: map,
+			});
+			var infowindow = new google.maps.InfoWindow({
+				title:features.title,
+				content: features.content,
+			});
+			var streetMarker=new google.maps.Marker({//街景上的標記
+				position: features.position,
+				label: features.label,
+				content:features.content,
+				title: features.title,
+				icon: 'https://images2.imgbox.com/d7/11/vw0jHPG9_o.png',
+				map:panorama,
+			});
+			marker.addListener('click', function() {
+				var sidebar = document.getElementById("sidebar");
+				map.setCenter(marker.getPosition());
+				map.setCenter(streetMarker.getPosition());
+				panorama.setPosition(features.position);
+				panorama.setPov(features.pov);
+				panorama.setZoom(features.zoom);
+				map.setStreetView(panorama);
+				//sidebar.innerHTML = marker.getTitle();
+				sidebar.innerHTML = infowindow.getContent();
+
+			});
+			marker.addListener("mouseover", function() {
+				inforwindow.getTitle();
+    			//infowindow.open(map,marker);
+			});
+			marker.setMap(map);
+			var a =-1;
+			streetMarker.addListener('click', function(e) {
+				a = a * -1;
+				if(a>0){
+				  this.setIcon("https://images2.imgbox.com/25/d7/6evpGhIo_o.png");
+				  marker.setIcon("https://images2.imgbox.com/25/d7/6evpGhIo_o.png");
+				  inforwindow.getTitle();
+				}else{
+				  this.setIcon("https://images2.imgbox.com/d7/11/vw0jHPG9_o.png");
+				  marker.setIcon();
+				}
+			});
+			google.maps.event.addListener(infowindow, 'closeclick', function(){
+			});
+       });
+      }
+    </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWqM3x9_-ak3LkWf-TK_OD0-ysoDEbIj4&callback=initMap"
+    async defer></script>
+</body>
+</html>
